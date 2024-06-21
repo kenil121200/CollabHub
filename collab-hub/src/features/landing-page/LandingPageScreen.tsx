@@ -1,17 +1,20 @@
 import Landigpage from "../../components/ui-components/landing-page/Landigpage";
 import {
+  DetailsContsiner,
+  FooterContainer,
   Header,
   InfoContainer,
   LeftOverlay,
-  // Logo,
-  // LogoContainer,
   LogoImage,
   LogosContainer,
   LogosSlide,
   Main,
   RightOverlay,
-  // Slider,
-  // SliderTrack,
+  Title,
+  Text,
+  FollowUsContainer,
+  FollowIcons,
+  Icons,
 } from "./LandingPageStyles";
 import Typewriter from "typewriter-effect";
 import { useEffect, useRef } from "react";
@@ -109,6 +112,41 @@ const LandingPage: React.FC = () => {
           })}
         </LogosSlide>
       </LogosContainer>
+      <FooterContainer>
+        <DetailsContsiner>
+          <Title>CollabHub</Title>
+          <Text>
+            Discover open source projects on GitHub that match your skills and
+            interests for meaningful contributions.
+          </Text>
+          <FollowUsContainer>
+            <Text>Follow Us:</Text>
+            <FollowIcons>
+              <Icons>
+                <img
+                  src="https://www.svgrepo.com/show/125065/twitter-social-logotype.svg"
+                  height={"30px"}
+                  width={"30px"}
+                />
+              </Icons>
+              <Icons>
+                <img
+                  src="https://www.svgrepo.com/show/75731/youtube.svg"
+                  height={"30px"}
+                  width={"30px"}
+                />
+              </Icons>
+              <Icons>
+                <img
+                  src="https://icons.veryicon.com/png/o/miscellaneous/alibaba-cloud-ui-icon-library/linkedin-124.png"
+                  height={"30px"}
+                  width={"30px"}
+                />
+              </Icons>
+            </FollowIcons>
+          </FollowUsContainer>
+        </DetailsContsiner>
+      </FooterContainer>
     </>
   );
 };
