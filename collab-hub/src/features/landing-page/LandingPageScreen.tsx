@@ -24,31 +24,31 @@ const LandingPage: React.FC = () => {
       logo: "https://1000logos.net/wp-content/uploads/2020/09/Java-Logo-500x313.png",
     },
     {
-      logo: "https://1000logos.net/wp-content/uploads/2020/09/Java-Logo-500x313.png",
+      logo: "https://www.svgrepo.com/show/303360/nodejs-logo.svg",
     },
     {
-      logo: "https://1000logos.net/wp-content/uploads/2020/09/Java-Logo-500x313.png",
+      logo: "https://cdn0.iconfinder.com/data/icons/logos-brands-in-colors/128/react-512.png",
     },
     {
-      logo: "https://1000logos.net/wp-content/uploads/2020/09/Java-Logo-500x313.png",
+      logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Angular_full_color_logo.svg/2048px-Angular_full_color_logo.svg.png",
     },
     {
-      logo: "https://1000logos.net/wp-content/uploads/2020/09/Java-Logo-500x313.png",
+      logo: "https://static-00.iconduck.com/assets.00/next-js-icon-2048x2048-5dqjgeku.png",
     },
     {
-      logo: "https://1000logos.net/wp-content/uploads/2020/09/Java-Logo-500x313.png",
+      logo: "https://www.php.net/images/logos/new-php-logo.svg",
     },
     {
-      logo: "https://1000logos.net/wp-content/uploads/2020/09/Java-Logo-500x313.png",
+      logo: "https://www.svgrepo.com/show/376344/python.svg",
     },
     {
-      logo: "https://1000logos.net/wp-content/uploads/2020/09/Java-Logo-500x313.png",
+      logo: "https://cdn-icons-png.flaticon.com/512/5968/5968705.png",
     },
     {
-      logo: "https://1000logos.net/wp-content/uploads/2020/09/Java-Logo-500x313.png",
+      logo: "https://www.svgrepo.com/show/303251/mysql-logo.svg",
     },
     {
-      logo: "https://1000logos.net/wp-content/uploads/2020/09/Java-Logo-500x313.png",
+      logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Firebase_icon.svg/2048px-Firebase_icon.svg.png",
     },
   ];
   return (
@@ -98,52 +98,15 @@ const LandingPage: React.FC = () => {
         <LeftOverlay />
         <RightOverlay />
         <LogosSlide>
-          {/* Add your logo images here */}
-          <LogoImage
-            src="https://1000logos.net/wp-content/uploads/2020/09/Java-Logo-500x313.png"
-            alt="Logo 1"
-          />
-          <LogoImage
-            src="https://1000logos.net/wp-content/uploads/2020/09/Java-Logo-500x313.png"
-            alt="Logo 2"
-          />
-          <LogoImage
-            src="https://1000logos.net/wp-content/uploads/2020/09/Java-Logo-500x313.png"
-            alt="Logo 2"
-          />
-          <LogoImage
-            src="https://1000logos.net/wp-content/uploads/2020/09/Java-Logo-500x313.png"
-            alt="Logo 2"
-          />
-          <LogoImage
-            src="https://1000logos.net/wp-content/uploads/2020/09/Java-Logo-500x313.png"
-            alt="Logo 2"
-          />
-          <LogoImage
-            src="https://1000logos.net/wp-content/uploads/2020/09/Java-Logo-500x313.png"
-            alt="Logo 2"
-          />
-          <LogoImage
-            src="https://1000logos.net/wp-content/uploads/2020/09/Java-Logo-500x313.png"
-            alt="Logo 2"
-          />
-          <LogoImage
-            src="https://1000logos.net/wp-content/uploads/2020/09/Java-Logo-500x313.png"
-            alt="Logo 2"
-          />
-          <LogoImage
-            src="https://1000logos.net/wp-content/uploads/2020/09/Java-Logo-500x313.png"
-            alt="Logo 2"
-          />
-          <LogoImage
-            src="https://1000logos.net/wp-content/uploads/2020/09/Java-Logo-500x313.png"
-            alt="Logo 2"
-          />
-          <LogoImage
-            src="https://1000logos.net/wp-content/uploads/2020/09/Java-Logo-500x313.png"
-            alt="Logo 2"
-          />
-          {/* ... */}
+          {logos.map((logo) => {
+            return <LogoImage src={logo.logo} alt="Logo 1" />;
+          })}
+          {logos.map((logo) => {
+            return <LogoImage src={logo.logo} alt="Logo 1" />;
+          })}
+          {logos.map((logo) => {
+            return <LogoImage src={logo.logo} alt="Logo 1" />;
+          })}
         </LogosSlide>
       </LogosContainer>
     </>
