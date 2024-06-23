@@ -18,6 +18,7 @@ import {
 } from "./LandingPageStyles";
 import Typewriter from "typewriter-effect";
 import { useEffect, useRef } from "react";
+import Navbar from "../../components/navbar/Navbar";
 
 const LandingPage: React.FC = () => {
   const sliderTrackRef = useRef(null);
@@ -56,6 +57,8 @@ const LandingPage: React.FC = () => {
   ];
   return (
     <>
+      <Navbar />
+
       <Main>
         <InfoContainer>
           <Header>

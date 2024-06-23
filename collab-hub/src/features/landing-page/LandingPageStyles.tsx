@@ -14,6 +14,7 @@ export const InfoContainer = styled.div`
   width: 30%;
   padding: 12px 12px 12px 12px;
 `;
+
 export const Header = styled.div`
   font-family: Poppins, sans-serif;
   font-weight: 700;
