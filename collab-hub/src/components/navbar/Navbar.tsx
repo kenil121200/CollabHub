@@ -61,18 +61,6 @@ const Navbar: React.FC<any> = () => {
   return (
     <>
       <NavContainer>
-        {/* <ReviewBoosterIcon height={"125"} width={"74"} /> */}
-        {/* {NavOptions.map((option) => {
-              return (
-                <Option
-                  style={{ color: "#ffffff" }}
-                  currentSelectd={currentSelected === option.key}
-                  onClick={() => onClickOption(option.key)}
-                >
-                  <Header>{option.value}</Header>
-                </Option>
-              );
-            })} */}
         <Logo>CollabHub</Logo>
         <NavLinks>
           <NavLink>Home</NavLink>
