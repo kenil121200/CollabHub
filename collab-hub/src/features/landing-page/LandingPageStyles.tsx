@@ -66,7 +66,6 @@ export const RightOverlay = styled(GradientOverlay)`
 
 export const LogosSlide = styled.div`
   display: inline-block;
-  // animation: ${slide} 15s infinite linear;
 `;
 
 export const LogoImage = styled.img`

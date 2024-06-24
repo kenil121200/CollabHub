@@ -6,17 +6,22 @@ import LandingPage from "./features/landing-page/LandingPageScreen";
 import ContactUs from "./features/ContactUs/ContactUs";
 import Faqs from "./features/Faqs/Faqs";
 import Home from "./features/Home/Home";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/faqs" element={<Faqs />} />
-        <Route path="/contact-us" element={<ContactUs />} />
-      </Routes>
-    </Router>
+    <>
+      <ToastContainer />
+      <Router>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/faqs" element={<Faqs />} />
+          <Route path="/contact-us" element={<ContactUs />} />
+        </Routes>
+      </Router>
+    </>
   );
 }
 

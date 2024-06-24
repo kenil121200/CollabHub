@@ -17,7 +17,7 @@ import {
   Icons,
 } from "./LandingPageStyles";
 import Typewriter from "typewriter-effect";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import Navbar from "../../components/navbar/Navbar";
 
 const LandingPage: React.FC = () => {
