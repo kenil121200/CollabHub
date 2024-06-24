@@ -15,6 +15,8 @@ import {
 } from "./NavbarStyles";
 
 const Navbar: React.FC<any> = () => {
+  let navigate = useNavigate();
+
   const NavOptions = [
     {
       key: "Dashboard",
@@ -63,9 +65,9 @@ const Navbar: React.FC<any> = () => {
       <NavContainer>
         <Logo>CollabHub</Logo>
         <NavLinks>
-          <NavLink>Home</NavLink>
-          <NavLink>FAQs</NavLink>
-          <NavLink>Contact Us</NavLink>
+          <NavLink onClick={() => navigate("/home")}>Home</NavLink>
+          <NavLink onClick={() => navigate("/faqs")}>FAQs</NavLink>
+          <NavLink onClick={() => navigate("/contact-us")}>Contact Us</NavLink>
         </NavLinks>
       </NavContainer>
     </>
