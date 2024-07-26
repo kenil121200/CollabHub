@@ -36,6 +36,27 @@ class ProfileServices {
       throw new Error("Internal server error");
     }
   }
+
+  async updateProfile(
+    email: string,
+    updatedProfile: Partial<Profile>
+  ): Promise<any> {
+    try {
+      const db = client.db(dbName);
+      const collection = db.collection<Profile>("profiles");
+
+      // Update the profile document based on the email
+      const result = await collection.updateOne(
+        { email: email },
+        { $set: updatedProfile }
+      );
+
+      return result;
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      throw error; // Rethrow the error to be handled by the controller
+    }
+  }
 }
 
 export default new ProfileServices();
