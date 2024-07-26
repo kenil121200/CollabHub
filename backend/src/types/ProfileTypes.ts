@@ -13,5 +13,5 @@ export interface Profile {
 
 export interface UserType {
   Developer: "Developer";
-  ProjectManage: "Project Manager";
+  ProjectManager: "Project Manager";
 }
