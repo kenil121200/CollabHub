@@ -4,7 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import pusher from '../../config/PusherService';
 import Modal from './Modal';
-import { getAuthenticaticatedUser } from "../../context/FetchUser"
+import { getAuthenticaticatedUser } from "../../context/FetchUser";
 
 interface User {
   username: string;
@@ -35,16 +35,16 @@ const ChatPage: React.FC = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState<string>('');
-  const user = getAuthenticaticatedUser()
-  console.log(user)
+  const user = getAuthenticaticatedUser();
+  console.log(user);
   const currentUser: User = { username: user.login, name: user.name };
-  console.log(currentUser)
+  console.log(currentUser);
 
   useEffect(() => {
     if (selectedGroup) {
       // Fetch initial messages
       axios.get(`http://localhost:8081/chat/messages/${selectedGroup.id}`).then(response => {
-        console.log(response.data)
+        console.log(response.data);
         setMessages(response.data);
       });
 
@@ -64,18 +64,46 @@ const ChatPage: React.FC = () => {
 
   const handleLeaveGroup = () => {
     if (selectedGroup === null) return;
-    const groupIndex = groups.indexOf(selectedGroup);
-    const newGroups = groups.filter(group => group.id !== selectedGroup.id);
 
-    if (newGroups.length > 0) {
-      const nextGroupIndex = groupIndex === newGroups.length ? groupIndex - 1 : groupIndex;
-      setSelectedGroup(newGroups[nextGroupIndex]);
-    } else {
-      setSelectedGroup(null);
-    }
+    const leaveMessage: Message = {
+      _id: messages.length + 1,
+      message: `${currentUser.username} has left the group`,
+      isSent: false,
+      groupId: selectedGroup.id,
+      user: { username: 'system', name: 'System' },
+      timestamp: new Date(),
+    };
 
-    setGroups(newGroups);
-    setShowModal(false);
+    axios.post('http://localhost:8081/chat/leave', {
+      groupId: selectedGroup.id,
+      username: currentUser.username,
+      message: leaveMessage
+    }).then(response => {
+      // Remove user from group and notify other users
+      const groupIndex = groups.indexOf(selectedGroup);
+      const newGroups = groups.filter(group => group.id !== selectedGroup.id);
+
+      if (newGroups.length > 0) {
+        const nextGroupIndex = groupIndex === newGroups.length ? groupIndex - 1 : groupIndex;
+        setSelectedGroup(newGroups[nextGroupIndex]);
+      } else {
+        setSelectedGroup(null);
+      }
+
+      setGroups(newGroups);
+      setShowModal(false);
+      setMessages(prevMessages => [...prevMessages, leaveMessage]);
+    }).catch(error => {
+      toast.error('Error leaving the group', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    });
   };
 
   const handleSendMessage = () => {
@@ -152,12 +180,22 @@ const ChatPage: React.FC = () => {
                   .map((message) => (
                     <div
                       key={message._id}
-                      // className={`mb-2 p-2 rounded-full text-sm max-w-xs ${
-                      //   message.isSent ? 'bg-blue-500 text-white ml-auto' : 'bg-gray-300 text-black mr-auto'
-                      // }`}
-                      // style={{ alignSelf: message.isSent ? 'flex-end' : 'flex-start' }}
+                      className={`mb-2 p-2 rounded-lg text-sm max-w-xs ${
+                        message.user.username === 'system'
+                          ? 'bg-gray-600 text-white text-center mx-auto'
+                          : message.user.username === currentUser.username
+                          ? 'bg-gray-900 text-white ml-auto'
+                          : 'bg-gray-800 text-white mr-auto'
+                      }`}
+                      style={{ alignSelf: message.user.username === 'system' ? 'center' : message.user.username === currentUser.username ? 'flex-end' : 'flex-start' }}
                     >
-                       <span>{`${message.user.name} (${new Date(message.timestamp).toLocaleString()}): ${message.message}`}</span>
+                      <div>{message.message}</div>
+                      {message.user.username !== 'system' && (
+                        <div className="text-xs text-gray-400 mt-1">
+                          <div>{new Date(message.timestamp).toLocaleTimeString()}</div>
+                          <div>{message.user.username}</div>
+                        </div>
+                      )}
                     </div>
                   ))}
               </div>

@@ -64,6 +64,23 @@ class ChatController {
       return res.status(500).json({ message: "Internal server error" });
     }
   }
+
+  async leaveGroup(req: Request, res: Response): Promise<Response> {
+    try {
+      const { groupId, username } = req.body;
+
+      if (!groupId || !username) {
+        return res.status(400).json({ message: "Missing parameters" });
+      }
+
+      const leaveMessage = await chatService.leaveGroup(groupId, username);
+
+      return res.status(200).json({ success: true, message: leaveMessage });
+    } catch (error) {
+      return res.status(500).json({ message: "Internal server error" });
+    }
+  }
+  
 }
 
 export default new ChatController();
