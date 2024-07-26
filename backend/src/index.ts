@@ -7,17 +7,13 @@ import { connectDB, client } from "./config/mongoDb";
 import router from "./indexRouters";
 const app = express();
 import http from "http";
-
-app.use(cors({ origin: "http://localhost:3000" }));
-
+app.use(cors({ origin: "*" }));
 app.use(compression());
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
 const server = http.createServer(app);
-
 (async function startServer() {
   try {
     await connectDB();

@@ -1,5 +1,4 @@
 import { toast } from 'react-toastify';
-import Navbar from '../../components/navbar/Navbar';
 import { Main, LeftTextSection, InfoContainer, Header, Text, Form, Input, TextArea, Button } from './ContactUsStyles';
 const ContactUs: React.FC = () => {
 
@@ -10,7 +9,6 @@ const ContactUs: React.FC = () => {
 
   return (
     <>
-      <Navbar />
       <Main>
         <Header>Need Help?</Header>
         <div style={{ display: 'flex', width: '100%', justifyContent: 'center' }}>
