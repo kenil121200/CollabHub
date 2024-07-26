@@ -38,11 +38,6 @@ const Navbar: React.FC<any> = () => {
       value: "Contact us",
       isSelected: false,
     },
-    {
-      key: "Chat",
-      value: "Chat",
-      isSelected: false,
-    },
   ];
 
   const [currentSelected, setCurrentSelected] = useState("Dashboard");
@@ -71,7 +66,6 @@ const Navbar: React.FC<any> = () => {
         <Logo>CollabHub</Logo>
         <NavLinks>
           <NavLink onClick={() => navigate("/home")}>Home</NavLink>
-          <NavLink onClick={() => navigate("/chat")}>Chat</NavLink>
           <NavLink onClick={() => navigate("/faqs")}>FAQs</NavLink>
           <NavLink onClick={() => navigate("/contact-us")}>Contact Us</NavLink>
         </NavLinks>
