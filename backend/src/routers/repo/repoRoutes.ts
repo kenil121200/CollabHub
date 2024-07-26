@@ -1,8 +1,11 @@
-const express = require('express');
+import express from "express";
+import repoController from "../../controllers/repo/repo.controller";
+
 const router = express.Router();
-const repoController = require('../controllers/repoController');
+
+router.use(express.json());
 
 router.post('/createRepo', repoController.createRepo);
 router.post('/addCollaborator', repoController.addCollaborator);
 
-module.exports = router;
+export default router;
