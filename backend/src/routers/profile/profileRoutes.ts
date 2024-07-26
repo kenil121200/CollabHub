@@ -7,6 +7,7 @@ router.use(express.json());
 
 console.log("profile router");
 // Add your routes here
-router.get("/getProfiles", profileController.getProfiles);
+// router.get("/getProfiles", profileController.getProfiles);
+router.post("/setProfile", profileController.setProfile);
 
 export default router;
