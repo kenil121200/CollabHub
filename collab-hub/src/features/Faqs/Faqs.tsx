@@ -1,5 +1,4 @@
 import React from "react";
-import Navbar from "../../components/navbar/Navbar";
 import {
   Main,
   InfoContainer,
@@ -42,7 +41,6 @@ const FAQPage = () => {
 
   return (
     <>
-      <Navbar />
       <Main>
         <InfoContainer>
           <Header>Frequently Asked Questions</Header>

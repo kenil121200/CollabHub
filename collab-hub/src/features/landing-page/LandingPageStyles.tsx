@@ -79,7 +79,7 @@ export const FooterContainer = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  background-color: #212529;
+  background-color:  #000000;
   paddding: 48px 48px 48px 48px;
 `;
 
