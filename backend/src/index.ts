@@ -14,6 +14,20 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 const server = http.createServer(app);
+const Pusher = require("pusher");
+
+const pusher = new Pusher({
+  appId: "1840558",
+  key: "0ad0b6a34adab474cc3c",
+  secret: "e3b685dae4d046230ede",
+  cluster: "us2",
+  useTLS: true
+});
+
+// pusher.trigger("my-channel", "my-event", {
+//   message: "hello world"
+// });
+
 (async function startServer() {
   try {
     await connectDB();
@@ -26,3 +40,7 @@ const server = http.createServer(app);
   }
 })();
 app.use("/", router);
+
+
+export { pusher };
+
