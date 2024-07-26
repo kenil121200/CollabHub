@@ -5,9 +5,8 @@ const router = express.Router();
 
 router.use(express.json());
 
-console.log("profile router");
 // Add your routes here
-// router.get("/getProfiles", profileController.getProfiles);
+router.post("/fetchProfile", profileController.fetchProfile);
 router.post("/setProfile", profileController.setProfile);
 router.post("/updateProfile", profileController.updateProfile);
 
