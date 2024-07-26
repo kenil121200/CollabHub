@@ -8,6 +8,7 @@ import Faqs from "./features/Faqs/Faqs";
 import Home from "./features/Home/Home";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ChatPage from "./features/Chat/ChatPage";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/faqs" element={<Faqs />} />
           <Route path="/contact-us" element={<ContactUs />} />
+          <Route path="/chat" element={<ChatPage />} />
         </Routes>
       </Router>
     </>

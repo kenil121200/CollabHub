@@ -3,9 +3,13 @@ import compression from "compression";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import express, { Request, Response } from "express";
+const { createServer } = require("http");
+const { Server } = require("socket.io");
 import { connectDB, client } from "./config/mongoDb";
 import router from "./indexRouters";
 const app = express();
+const httpServer = createServer(app);
+const io = new Server(httpServer, { /* options */ });
 import http from "http";
 
 app.use(cors({ origin: "http://localhost:3000" }));
