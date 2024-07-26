@@ -18,7 +18,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }, []);
   
     const getAccessToken = async (code: string) => {
-        const response = await fetch(`${process.env.VITE_BACKEND_LINK}/auth/getAccessToken?code=${code}`, {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_LINK}/auth/getAccessToken?code=${code}`, {
           method: 'GET',
         });
         const data = await response.json();
@@ -29,26 +29,27 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
     
     const getUserData = async () => {
-        const response = await fetch(`${process.env.VITE_BACKEND_LINK}/user/getUserData`, {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_LINK}/user/getUserData`, {
           method: 'GET',
           headers: {
             "Authorization": `Bearer ${localStorage.getItem('accessToken')}`,
           },
         });
         const data = await response.json();
-        console.log(data);
         setUser(data);
+        localStorage.setItem('user', JSON.stringify(data));
         setIsAuthenticated(true); 
     };
   
     const logout = () => {
       localStorage.removeItem('accessToken');
+      localStorage.removeItem('user');
       setIsAuthenticated(false);
       setUser(null);
     };
   
     const handleLogin = () => {
-      window.location.assign(`https://github.com/login/oauth/authorize?client_id=${process.env.VITE_CLIENT_ID_GITHUB}`);
+      window.location.assign(`https://github.com/login/oauth/authorize?client_id=${process.env.REACT_APP_CLIENT_ID_GITHUB}`);
     };
   
     return (
