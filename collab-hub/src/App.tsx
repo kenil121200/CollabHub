@@ -5,15 +5,16 @@ import LandingPage from "./features/landing-page/LandingPageScreen";
 import ContactUs from "./features/ContactUs/ContactUs";
 import Faqs from "./features/Faqs/Faqs";
 import Home from "./features/Home/Home";
-import { LoginPage, NavBar, HomePage } from './components';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { LoginPage, NavBar, HomePage } from "./components";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import ProfileScreen from "./features/Profile/ProfileScreen";
 
 function App() {
   return (
     <>
       <ToastContainer />
-      
+
       <Router>
         <NavBar />
         <Routes>
@@ -22,6 +23,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/faqs" element={<Faqs />} />
           <Route path="/contact-us" element={<ContactUs />} />
+          <Route path="/Profile" element={<ProfileScreen />} />
         </Routes>
       </Router>
     </>

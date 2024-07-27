@@ -58,10 +58,10 @@ function NavBar() {
                     <ul className="py-2" aria-labelledby="dropdownDividerButton">
                     <li>
                         <a
-                        href="#"
+                        href="/profile"
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                         >
-                        Dashboard
+                        Profile 
                         </a>
                     </li>
                     <li>
@@ -69,9 +69,17 @@ function NavBar() {
                         href="#"
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                         >
-                        Settings
+                        Dashboard
                         </a>
                     </li>
+                    {/* <li>
+                        <a
+                        href="#"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                        >
+                        Settings
+                        </a>
+                    </li> */}
                     <li>
                     <button
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white mx-auto my-2 border-blue-500 border-2 rounded"
