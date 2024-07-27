@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import DeveloperCard from "../../components/DeveloperCard";
 import { NavBar } from "../../components";
 
 import { useNavigate } from "react-router-dom";
 import Sidebar from "../../components/DeveloperCard/Sidebar";
+import axios from "axios";
 
 interface Profile {
   _id: any;

@@ -7,15 +7,15 @@ class ProfileController {
 
   async fetchProfile(req: Request, res: Response): Promise<Response> {
     try {
-      const { email } = req.body;
+      const { userName } = req.body;
 
       // Validate the request parameter
-      if (!email) {
+      if (!userName) {
         return res.status(400).json({ message: "Email parameter is required" });
       }
 
       // Call the service method to fetch the profile
-      const profile = await profileService.fetchProfile(email);
+      const profile = await profileService.fetchProfile(userName);
 
       if (profile) {
         return res.status(200).json(profile);
@@ -67,17 +67,17 @@ class ProfileController {
 
   async updateProfile(req: Request, res: Response): Promise<Response> {
     try {
-      const { email } = req.body;
+      const { userName } = req.body;
 
       // Validate the request parameters
-      if (!email) {
+      if (!userName) {
         return res.status(400).json({ message: "Missing parameters" });
       }
 
       // Create the profile update object
 
       // Call the service method to update the profile
-      const result = await profileService.updateProfile(email, req.body);
+      const result = await profileService.updateProfile(userName, req.body);
       if (result.modifiedCount === 1 || result.matchedCount === 1) {
         return res
           .status(200)

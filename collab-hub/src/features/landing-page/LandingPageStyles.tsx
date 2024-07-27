@@ -1,5 +1,14 @@
 import styled, { keyframes } from "styled-components";
 
+const slide = keyframes`
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+`;
+
 export const Main = styled.div`
   display: flex;
   flex-direction: row;
@@ -12,7 +21,7 @@ export const InfoContainer = styled.div`
   justify-content: center;
   align-items: center;
   width: 30%;
-  padding: 12px 12px 12px 12px;
+  padding: 12px;
 `;
 
 export const Header = styled.div`
@@ -20,16 +29,7 @@ export const Header = styled.div`
   font-weight: 700;
   font-size: 28px;
   line-height: 40px;
-  font-feature-settings: "tnum", "lnum", "case", "ss04";
   color: rgb(37, 37, 37);
-`;
-export const slide = keyframes`
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-100%);
-  }
 `;
 
 export const LogosContainer = styled.div`
@@ -37,40 +37,18 @@ export const LogosContainer = styled.div`
   overflow: hidden;
   padding: 60px 0;
   background: white;
-  white-space: nowrap;
   position: relative;
-
-  &:hover .logos-slide {
-    animation-play-state: paused;
-  }
-`;
-
-export const GradientOverlay = styled.div`
-  position: absolute;
-  top: 0;
-  width: 250px;
-  height: 100%;
-  content: "";
-  z-index: 2;
-`;
-
-export const LeftOverlay = styled(GradientOverlay)`
-  left: 0;
-  background: linear-gradient(to left, rgba(255, 255, 255, 0), white);
-`;
-
-export const RightOverlay = styled(GradientOverlay)`
-  right: 0;
-  background: linear-gradient(to right, rgba(255, 255, 255, 0), white);
 `;
 
 export const LogosSlide = styled.div`
-  display: inline-block;
+  display: flex;
+  width: 100%; /* Adjust width to allow for horizontal scrolling */
+  animation: ${slide} 20s linear infinite;
 `;
 
 export const LogoImage = styled.img`
   height: 50px;
-  margin: 0 40px;
+  margin: 0 20px; /* Adjust spacing between logos */
 `;
 
 export const FooterContainer = styled.div`
@@ -79,16 +57,15 @@ export const FooterContainer = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  background-color:  #000000;
-  paddding: 48px 48px 48px 48px;
+  background-color: #000000;
+  padding: 48px;
 `;
 
 export const DetailsContsiner = styled.div`
   display: flex;
-  height: 90%;
-  width: 40%;
   flex-direction: column;
-  height: ;
+  align-items: center;
+  width: 40%;
 `;
 
 export const Title = styled.div`
@@ -103,15 +80,13 @@ export const Title = styled.div`
 `;
 
 export const Text = styled.div`
-  margin-top:18px;
+  margin-top: 18px;
   font-family: Poppins;
-  font-style: normal;
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
   color: rgb(255, 255, 255);
   text-align: center;
-}
 `;
 
 export const FollowUsContainer = styled.div`
@@ -138,4 +113,25 @@ export const Icons = styled.div`
   align-items: center;
   background-color: rgb(255, 255, 255);
   border-radius: 50px;
+`;
+
+
+
+export const GradientOverlay = styled.div`
+  position: absolute;
+  top: 0;
+  width: 250px;
+  height: 100%;
+  content: "";
+  z-index: 2;
+`;
+
+export const LeftOverlay = styled(GradientOverlay)`
+  left: 0;
+  background: linear-gradient(to left, rgba(255, 255, 255, 0), white);
+`;
+
+export const RightOverlay = styled(GradientOverlay)`
+  right: 0;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0), white);
 `;
