@@ -1,3 +1,5 @@
+// Author: Jay Patel
+
 export const getAuthenticaticatedUser = () => {
     let userData = localStorage.getItem("user");
     // console.log(userData)

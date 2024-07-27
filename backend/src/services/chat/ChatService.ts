@@ -1,3 +1,5 @@
+// Author: Jay Patel
+
 import { MongoClient } from "mongodb";
 import { connectDB, client, dbName } from "../../config/mongoDb";
 import { ChatMessage, TypingIndicator } from "../../types/ChatTypes";

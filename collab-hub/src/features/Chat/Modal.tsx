@@ -1,3 +1,5 @@
+// Author: Jay Patel
+
 import React from 'react';
 
 interface ModalProps {
