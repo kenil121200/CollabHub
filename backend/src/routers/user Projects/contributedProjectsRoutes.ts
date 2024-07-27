@@ -5,5 +5,9 @@ const router = express.Router();
 router.use(express.json());
 
 router.post("/fetchProjects", contributedProjectsController.fetchProjects);
+router.get(
+  "/fetchProject/:Id",
+  contributedProjectsController.fetchProjectById
+);
 
 export default router;
