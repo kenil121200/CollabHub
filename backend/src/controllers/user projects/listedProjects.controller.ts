@@ -82,7 +82,7 @@ class ListedProjectsController {
       if (!Id) {
         return res
           .status(400)
-          .json({ message: "Missing developer Id parameter" });
+          .json({ message: "Missing project Id parameter" });
       }
 
       const listedProject = await listedProjectsServices.fetchProjectById(Id);
