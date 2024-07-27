@@ -7,5 +7,6 @@ router.use(express.json());
 router.post("/createNewProject", listedProjectsController.createNewProject);
 router.post("/fetchProjects", listedProjectsController.fetchProjects);
 router.get("/getAllProjects", listedProjectsController.fetchAllProjects);
+router.get("/fetchProject/:Id", listedProjectsController.fetchProjectById);
 
 export default router;

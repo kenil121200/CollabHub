@@ -87,6 +87,28 @@ class ListedProjectsController {
       console.log("ListedProjectsController : ", error);
       return res.status(500).json({ message: "Internal server error" });
     }
+  } 
+  async fetchProjectById(req: Request, res: Response): Promise<Response> {
+    try {
+      const Id = req.params.Id;
+
+      if (!Id) {
+        return res
+          .status(400)
+          .json({ message: "Missing project Id parameter" });
+      }
+
+      const listedProject = await listedProjectsServices.fetchProjectById(Id);
+
+      if (listedProject) {
+        return res.status(200).json(listedProject);
+      } else {
+        return res.status(404).json({ message: "No Project Found" });
+      }
+    } catch (error) {
+      console.log("ListedProjectsController : ", error);
+      return res.status(500).json({ message: "Internal server error" });
+    }
   }
 }
 
