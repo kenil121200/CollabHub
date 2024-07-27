@@ -7,7 +7,6 @@ class FindDeveloperController {
 
   async getDevelopers(req: Request, res: Response): Promise<void> {
     try {
-
       const developers: Profile[] =
         await findDeveloperServices.fetchAllDevelopers();
 
@@ -20,6 +19,22 @@ class FindDeveloperController {
       console.error("Error fetching developers:", errors);
 
       res.status(500).json({ error: "Internal server error" });
+    }
+  }
+
+  async getDeveloper(req: Request, res: Response) {
+    const { id } = req.params;
+
+    try {
+      const developer = await findDeveloperServices.fetchDeveloper(id);
+
+      if (developer) {
+        res.status(200).json(developer);
+      } else {
+        res.status(404).json({ message: "Developer not found" });
+      }
+    } catch (err) {
+      res.status(500).json(err);
     }
   }
 }
