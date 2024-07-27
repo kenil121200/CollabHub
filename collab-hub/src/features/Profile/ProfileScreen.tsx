@@ -1,13 +1,15 @@
-import React, { useState, ChangeEvent } from "react";
+import React, { useState, useEffect, ChangeEvent } from "react";
 import styled from "styled-components";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaPlus, FaTrash } from "react-icons/fa";
 import {
   Avatar,
   Button,
   TextField,
   Checkbox,
   FormControlLabel,
+  IconButton,
 } from "@mui/material";
+import axios from "axios";
 import {
   AvatarContainer,
   ButtonHolder,
@@ -28,25 +30,64 @@ import {
   Value,
 } from "./ProfileScreenStyles";
 
-// Styled Components
-
 // React Component
 const ProfilePage: React.FC = () => {
   const [isEditing, setIsEditing] = useState(false);
-  const [profile, setProfile] = useState({
-    firstName: "John",
-    lastName: "Doe",
-    age: 30,
-    gender: "Male",
-    skills: ["JavaScript", "React", "Node.js"],
-    userType: "Developer",
+  const [profile, setProfile] = useState<{
+    firstName: string;
+    lastName: string;
+    age: number;
+    gender: string;
+    skills: string[];
+    userType: string;
+    isVisible: boolean;
+    contactNumber: string;
+    profilePic: string;
+  }>({
+    firstName: "",
+    lastName: "",
+    age: 0,
+    gender: "",
+    skills: [],
+    userType: "",
     isVisible: true,
-    contactNumber: "123-456-7890",
-    profilePic: "https://via.placeholder.com/120",
+    contactNumber: "",
+    profilePic: "",
   });
-
-  const [profilePic, setProfilePic] = useState(profile.profilePic);
+  const [profilePic, setProfilePic] = useState("");
   const [fileInputKey, setFileInputKey] = useState(Date.now());
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [newSkill, setNewSkill] = useState("");
+
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (user) {
+      const userObject = JSON.parse(user);
+      const userName = userObject.login;
+      const fetchProfileData = async () => {
+        try {
+          const response = await axios.post(
+            `${process.env.REACT_APP_BACKEND_LINK}/profile/fetchProfile`,
+            { userName }
+          );
+          const data = response.data;
+
+          setProfile(data);
+          setProfilePic(data.profilePic);
+          setLoading(false);
+        } catch (err) {
+          setError("Failed to fetch profile data.");
+          setLoading(false);
+        }
+      };
+
+      fetchProfileData();
+    } else {
+      setError("User not found.");
+      setLoading(false);
+    }
+  }, []);
 
   const handleEditClick = () => {
     setIsEditing(!isEditing);
@@ -55,16 +96,57 @@ const ProfilePage: React.FC = () => {
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target as HTMLInputElement;
+
     setProfile((prev) => ({
       ...prev,
-      [name]: value,
+      [name]:
+        type === "checkbox"
+          ? checked
+          : name === "skills"
+          ? value.split(",").map((skill) => skill.trim())
+          : value,
     }));
   };
 
+  const handleAddSkill = () => {
+    if (newSkill.trim() === "") return;
+    setProfile((prev) => ({
+      ...prev,
+      skills: [...prev.skills, newSkill.trim()],
+    }));
+    setNewSkill("");
+  };
+
+  const handleRemoveSkill = (skillToRemove: string) => {
+    setProfile((prev) => ({
+      ...prev,
+      skills: prev.skills.filter((skill) => skill !== skillToRemove),
+    }));
+  };
+
+  const updateProfile = async () => {
+    const user = localStorage.getItem("user");
+    if (user) {
+      const userObject = JSON.parse(user);
+      const userName = userObject.login;
+
+      try {
+        await axios.post(
+          `${process.env.REACT_APP_BACKEND_LINK}/profile/updateProfile`,
+          { userName, ...profile }
+        );
+        setIsEditing(false);
+      } catch (err) {
+        setError("Failed to update profile data.");
+      }
+    } else {
+      setError("User not found.");
+    }
+  };
+
   const handleSave = () => {
-    // Save the profile data
-    setIsEditing(false);
+    updateProfile();
   };
 
   const handleCancel = () => {
@@ -93,13 +175,11 @@ const ProfilePage: React.FC = () => {
     }
   };
 
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
+
   return (
     <PageContainer>
-      {/* <TopBar>
-        <TopbarLeft>
-          <Title>Profile Page</Title>
-        </TopbarLeft>
-      </TopBar> */}
       <ProjectContainer>
         <ProjectInfo>
           <ProfileSection>
@@ -183,13 +263,29 @@ const ProfilePage: React.FC = () => {
             <HeaderAndValue>
               <Header>Skills</Header>
               {isEditing ? (
-                <TextField
-                  name="skills"
-                  value={profile.skills.join(", ")}
-                  onChange={handleChange}
-                  variant="outlined"
-                  fullWidth
-                />
+                <>
+                  <TextField
+                    name="skillsInput"
+                    value={newSkill}
+                    onChange={(e) => setNewSkill(e.target.value)}
+                    variant="outlined"
+                    fullWidth
+                    placeholder="Add a skill"
+                  />
+                  <IconButton onClick={handleAddSkill}>
+                    <FaPlus />
+                  </IconButton>
+                  <SkillsContainer>
+                    {profile.skills.map((skill) => (
+                      <Skills key={skill}>
+                        {skill}
+                        <IconButton onClick={() => handleRemoveSkill(skill)}>
+                          <FaTrash color="gray" />
+                        </IconButton>
+                      </Skills>
+                    ))}
+                  </SkillsContainer>
+                </>
               ) : (
                 <SkillsContainer>
                   {profile.skills.map((skill) => (
@@ -220,9 +316,7 @@ const ProfilePage: React.FC = () => {
                     <Checkbox
                       name="isVisible"
                       checked={profile.isVisible}
-                      onChange={(e) =>
-                        handleChange(e as ChangeEvent<HTMLInputElement>)
-                      }
+                      onChange={handleChange}
                       color="primary"
                     />
                   }
