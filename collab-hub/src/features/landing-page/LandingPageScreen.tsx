@@ -1,3 +1,4 @@
+import React from "react";
 import Landigpage from "../../components/ui-components/landing-page/Landigpage";
 import {
   DetailsContsiner,
@@ -8,20 +9,17 @@ import {
   LogoImage,
   LogosContainer,
   LogosSlide,
-  Main,
   RightOverlay,
   Title,
   Text,
   FollowUsContainer,
   FollowIcons,
   Icons,
+  Main,
 } from "./LandingPageStyles";
 import Typewriter from "typewriter-effect";
-import { useRef } from "react";
 
 const LandingPage: React.FC = () => {
-  const sliderTrackRef = useRef(null);
-
   const logos = [
     {
       logo: "https://1000logos.net/wp-content/uploads/2020/09/Java-Logo-500x313.png",
@@ -54,6 +52,7 @@ const LandingPage: React.FC = () => {
       logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Firebase_icon.svg/2048px-Firebase_icon.svg.png",
     },
   ];
+
   return (
     <>
       <Main>
@@ -69,7 +68,7 @@ const LandingPage: React.FC = () => {
                 ],
                 autoStart: true,
                 loop: true,
-                delay: 20, // Decrease the delay between each character
+                delay: 20,
                 deleteSpeed: 0,
               }}
             />
@@ -77,47 +76,22 @@ const LandingPage: React.FC = () => {
         </InfoContainer>
         <Landigpage />
       </Main>
-      {/* <Slider>
-        <SliderTrack>
-          <LogoContainer>
-            {logos.map((logo) => (
-              <Logo>
-                <img src={logo.logo} height={"100%"} width={"100%"} />
-              </Logo>
-            ))}
-          </LogoContainer>
-
-          <LogoContainer>
-            {logos.map((logo) => (
-              <div className="image">
-                <img src={logo.logo} height={"100%"} width={"100%"} />
-              </div>
-            ))}
-          </LogoContainer>
-        </SliderTrack>
-      </Slider> */}
 
       <LogosContainer>
         <LeftOverlay />
         <RightOverlay />
         <LogosSlide>
-          {logos.map((logo) => {
-            return <LogoImage src={logo.logo} alt="Logo 1" />;
-          })}
-          {logos.map((logo) => {
-            return <LogoImage src={logo.logo} alt="Logo 1" />;
-          })}
-          {logos.map((logo) => {
-            return <LogoImage src={logo.logo} alt="Logo 1" />;
-          })}
+          {logos.concat(logos).concat(logos).map((logo, index) => (
+            <LogoImage key={index} src={logo.logo} alt={`Logo ${index + 1}`} />
+          ))}
         </LogosSlide>
       </LogosContainer>
+
       <FooterContainer>
         <DetailsContsiner>
           <Title>CollabHub</Title>
           <Text>
-            Discover open source projects on GitHub that match your skills and
-            interests for meaningful contributions.
+            Discover open source projects on GitHub that match your skills and interests for meaningful contributions.
           </Text>
           <FollowUsContainer>
             <Text>Follow Us:</Text>
@@ -127,6 +101,7 @@ const LandingPage: React.FC = () => {
                   src="https://www.svgrepo.com/show/125065/twitter-social-logotype.svg"
                   height={"30px"}
                   width={"30px"}
+                  alt="Twitter"
                 />
               </Icons>
               <Icons>
@@ -134,6 +109,7 @@ const LandingPage: React.FC = () => {
                   src="https://www.svgrepo.com/show/75731/youtube.svg"
                   height={"30px"}
                   width={"30px"}
+                  alt="YouTube"
                 />
               </Icons>
               <Icons>
@@ -141,6 +117,7 @@ const LandingPage: React.FC = () => {
                   src="https://icons.veryicon.com/png/o/miscellaneous/alibaba-cloud-ui-icon-library/linkedin-124.png"
                   height={"30px"}
                   width={"30px"}
+                  alt="LinkedIn"
                 />
               </Icons>
             </FollowIcons>
