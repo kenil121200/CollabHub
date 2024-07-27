@@ -4,17 +4,29 @@ import { Profile } from "../../types/ProfileTypes";
 class ProfileServices {
   constructor() {}
 
-  async fetchProfile(userName: string): Promise<Profile | null> {
+  async fetchProfile(email: string): Promise<Profile | null> {
     try {
       const db = client.db(dbName);
       const collection = db.collection<Profile>("profiles");
 
       // Find the profile document based on the email
-      const profile = await collection.findOne({ userName: userName });
+      const profile = await collection.findOne({ email: email });
       return profile;
     } catch (error) {
       console.error("Error fetching profile:", error);
       throw error; // Rethrow the error to be handled by the controller
+    }
+  }
+
+  async checkUserExists(email: string): Promise<boolean> {
+    try {
+      const db = client.db(dbName);
+      const collection = db.collection<Profile>("profiles");
+      const user = await collection.findOne({ email: email });
+      return user !== null; // Return true if user exists, false otherwise
+    } catch (error) {
+      console.error("Error checking user existence:", error);
+      throw new Error("Internal server error");
     }
   }
 
@@ -35,7 +47,7 @@ class ProfileServices {
   }
 
   async updateProfile(
-    userName: string,
+    email: string,
     updatedProfile: Partial<Profile>
   ): Promise<any> {
     try {
@@ -43,7 +55,7 @@ class ProfileServices {
       const collection = db.collection<Profile>("profiles");
       const { _id, ...filteredProfile } = updatedProfile;
       const result = await collection.updateOne(
-        { userName: userName },
+        { email: email },
         { $set: filteredProfile }
       );
       return result;
