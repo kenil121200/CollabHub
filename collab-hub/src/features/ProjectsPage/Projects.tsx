@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, useEffect, ChangeEvent } from 'react';
 import {
   Grid,
   Card,
@@ -15,20 +15,22 @@ import {
   InputBase,
   ToggleButton,
 } from '@mui/material';
-import products from './productlist.json'; // Ensure this points to the correct location
 import CloseIcon from '@mui/icons-material/Close';
-import SearchIcon from '@mui/icons-material/Search'; // Search icon
-import FilterListIcon from '@mui/icons-material/FilterList'; // Filter icon
-import { styled } from '@mui/system'; // Import for styled utility
+import SearchIcon from '@mui/icons-material/Search';
+import FilterListIcon from '@mui/icons-material/FilterList';
+import GroupIcon from '@mui/icons-material/Group';
+import { styled } from '@mui/system';
 
-
-// Define the type for your products
-interface Product {
-  title: string;
-  labels: string;
-  percentage: string;
-  product_image: string;
-}
+interface Project {
+    _id: string;
+    createdByEmail: string;
+    projectName: string;
+    projectDescription: string;
+    contributorsEmail: string[];
+    projectTechnologies: string;
+    projectDomain: string;
+  }
+  
 
 const options = [
     "All",
@@ -37,7 +39,47 @@ const options = [
     "AI/ML",
   ];
 
-// Styled search bar with Material-UI styles
+  const technologyMapping: Record<string, string> = {
+    'C++': 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cplusplus/cplusplus-original.svg',
+    'C#': 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/csharp/csharp-original.svg',
+    'c++': 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cplusplus/cplusplus-original.svg',
+    'c#': 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/csharp/csharp-original.svg',
+    'Gcp': 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/googlecloud/googlecloud-original.svg',
+    'GCP': 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/googlecloud/googlecloud-original.svg',
+    'gcp': 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/googlecloud/googlecloud-original.svg',
+    'python': 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg',
+    'Python': 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg',
+    'javascript': 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg',
+    'Javascript': 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg',
+    'java': 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg',
+    'Java': 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg',
+    'Powershell': "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/powershell/powershell-original.svg",
+    'powershell': "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/powershell/powershell-original.svg",
+    'ruby': "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/ruby/ruby-plain.svg",
+    'Ruby': "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/ruby/ruby-plain.svg",
+    'Typescript': "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg",
+    'typescript': "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg",
+    'TS': "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg",
+    'ts': "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg",
+    'html': "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg",
+    'Html': "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg",
+    'HTML': "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg",
+    'CSS': "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg",
+    'css': "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg",
+    'Css': "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg",
+    'android': "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/android/android-original.svg",
+    'Android': "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/android/android-original.svg",
+    'kotlin': "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/kotlin/kotlin-original.svg",
+    'Kotlin': "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/kotlin/kotlin-original.svg",
+    'swift': "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/swift/swift-original.svg",
+    'Swift': "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/swift/swift-original.svg",
+    'react': "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg",
+    'React': "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg",
+    'aws': "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-original-wordmark.svg",
+    'AWS': "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-original-wordmark.svg",
+    'Aws': "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-original-wordmark.svg"
+  };
+
 const CustomSearchBar = styled('div')(({ theme }) => ({
   flex: 1,
   padding: '0 10px',
@@ -48,42 +90,73 @@ const CustomSearchBar = styled('div')(({ theme }) => ({
   backgroundColor: '#f1f1f1',
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'space-between', // Ensure space distribution between items
-  width: 'calc(100% - 40px)' // Adjust width accounting for margin
+  justifyContent: 'space-between', 
+  width: 'calc(100% - 40px)' 
 }));
 
-// Styled components for product cards and images
 const ProductCard = styled(Card)({
-  margin: 16,
-  transition: 'box-shadow 0.3s ease, transform 0.3s ease',
-  boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)',
-  '&:hover': {
-    boxShadow: '0 12px 20px 0 rgba(0, 0, 0, 0.4)',
-    transform: 'scale(1.02)',
-  },
-});
-
-const ProductImageWrapper = styled('div')({
-  width: '100%',  // Full width of its parent
-  height: '350px',  // Adjust this height to control how big the image appears
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  overflow: 'hidden'  // Ensures no part of the image spills out
-});
-
-const ProductImage = styled('img')({
-  width: '100%',  // Ensures the image fills the width of ProductImageWrapper
-  height: '100%',  // Ensures the image fills the height of ProductImageWrapper
-  objectFit: 'cover'  // Ensures the image covers the area without being stretched
-});
+    margin: 16,
+    transition: 'box-shadow 0.3s ease, transform 0.3s ease',
+    boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)',
+    '&:hover': {
+      boxShadow: '0 12px 20px 0 rgba(0, 0, 0, 0.4)',
+      transform: 'scale(1.02)',
+    },
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%', 
+    position: 'relative', 
+    overflow: 'hidden', 
+  });
+  
+  const ProductImageWrapper = styled('div')({
+    width: '100%',
+    height: '300px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'hidden',
+    position: 'relative',
+  });
+  
+  const ProductImage = styled('img')({
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+  });
+  
+  const DescriptionOverlay = styled(Box)(({ theme }) => ({
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    color: 'white',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: theme.spacing(2),
+    opacity: 0,
+    transition: 'opacity 0.3s ease',
+    '&:hover': {
+      opacity: 1,
+    },
+  }));
 
 function Projects() {
-  const [productList] = useState<Product[]>(products as Product[]);
-  const [open, setOpen] = useState(false);
-  const [searchText, setSearchText] = useState('');
-  const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
-  const [selectedOptions, setSelectedOptions] = React.useState<string[]>(['All']);
+    const [projectList, setProjectList] = useState<Project[]>([]);
+    const [open, setOpen] = useState(false);
+    const [searchText, setSearchText] = useState('');
+    const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
+    const [selectedOptions, setSelectedOptions] = useState<string[]>(['All']);
+  
+    useEffect(() => {
+      fetch(`${process.env.REACT_APP_BACKEND_LINK}/listedProjects/getAllProjects`)
+        .then(response => response.json())
+        .then(data => setProjectList(data))
+        .catch(error => console.error('Error fetching projects:', error));
+    }, []);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -96,7 +169,7 @@ function Projects() {
   };
 
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setSearchText(event.target.value);  // Update search text based on user input
+    setSearchText(event.target.value);  
   };
 
   const handleButtonClick = (option: string) => {
@@ -108,10 +181,20 @@ function Projects() {
   };
 
   // Filter products based on search text and selected languages
-  const filteredProducts = productList.filter(product =>
-    product.title.toLowerCase().includes(searchText.toLowerCase()) &&
-    (selectedLanguages.length === 0 || selectedLanguages.some(lang => product.labels.toLowerCase().includes(lang.toLowerCase())))
-  );
+  const filteredProjects = projectList.filter((project) => {
+    const matchesDomain =
+      selectedOptions.includes("All") ||
+      selectedOptions.some((option) => project.projectDomain.toLowerCase().includes(option.toLowerCase()));
+    const matchesSearch =
+      project.projectName.toLowerCase().includes(searchText.toLowerCase());
+    const matchesLanguages =
+      selectedLanguages.length === 0 ||
+      selectedLanguages.some((lang) =>
+        project.projectTechnologies.toLowerCase().includes(lang.toLowerCase())
+      );
+
+    return matchesDomain && matchesSearch && matchesLanguages;
+  });
 
   return (
     <>
@@ -177,7 +260,7 @@ function Projects() {
               Language
             </Typography>
             <FormGroup>
-              {['C', 'C++', 'Java', 'Python', 'Powershell', 'Ruby', 'AWS', 'GCP', 'Javascript', 'HTML', 'CSS'].map((language) => (
+              {['C', 'C++', 'Java', 'Python', 'Powershell', 'Ruby', 'Javascript', 'HTML', 'CSS'].map((language) => (
                 <FormControlLabel
                   control={<Checkbox
                     checked={selectedLanguages.includes(language)}
@@ -193,24 +276,74 @@ function Projects() {
         </Slide>
       </Modal>
 
-      <Grid container spacing={2}>
-        {filteredProducts.map((product, index) => (
-          <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
-            <ButtonBase onClick={() => alert("Card Clicked")}>
-              <ProductCard>
-                <ProductImageWrapper>
-                  <ProductImage src={product.product_image} alt={product.title} />
-                </ProductImageWrapper>
-                <CardContent>
-                  <Typography variant="h6" component="h2">{product.title}</Typography>
-                  <Typography variant="body2" color="textSecondary">{product.labels}</Typography>
-                  <Typography variant="body2" sx={{ mt: 1 }}>{`${product.percentage} project Complete`}</Typography>
-                </CardContent>
-              </ProductCard>
-            </ButtonBase>
-          </Grid>
-        ))}
-      </Grid>
+     {filteredProjects.length === 0 ? (
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '50vh',
+          }}
+        >
+          <Typography variant="h6">No projects to show</Typography>
+        </Box> 
+        ):(
+        <Grid container spacing={2}>
+          {filteredProjects.map((project, index) => {
+            const technologies = project.projectTechnologies.split(',');
+            const mainTechnology = technologies[0].trim();
+            return (
+              <Grid item xs={12} sm={6} md={4} lg={3} key={project._id}>
+                <ButtonBase sx={{ width: '100%', height: '100%', display: 'block', textAlign: 'left' }} onClick={() => alert("Card Clicked")}>
+                  <ProductCard>
+                    <ProductImageWrapper>
+                    <ProductImage
+                      src={technologyMapping[mainTechnology|| 'default']}
+                      alt={project.projectName}
+                    />
+                    </ProductImageWrapper>
+                    <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', p: 2, pb: 1 }}>
+                      <Typography variant="h6" component="h2" fontWeight="bold" mb={1}>
+                        {project.projectName}
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary" mb={1}>
+                        {project.projectTechnologies.split(',').slice(0, 3).join(', ')}
+                        {project.projectTechnologies.split(',').length > 3 &&
+                          ` +${project.projectTechnologies.split(',').length - 3} more`}
+                      </Typography>
+                      <Box display="flex" alignItems="center">
+                        <GroupIcon fontSize="small" />
+                        <Typography variant="body2" ml={1}>{project.contributorsEmail.length}</Typography>
+                      </Box>
+                    </CardContent>
+                    <Box
+                      sx={{
+                        backgroundColor: '#0073e6',
+                        color: 'white',
+                        py: 1,
+                        px: 2,
+                        textAlign: 'center',
+                        mt: -3
+                      }}
+                    >
+                      <Typography variant="body2">
+                        {project.projectDomain}
+                      </Typography>
+                    </Box>
+                    <DescriptionOverlay>
+                      <Typography variant="body2">
+                        {project.projectDescription}
+                      </Typography>
+                    </DescriptionOverlay>
+                  </ProductCard>
+                </ButtonBase>
+              </Grid>
+            );
+          })}
+        </Grid>
+        )}
+      
+
     </>
   );
 }
