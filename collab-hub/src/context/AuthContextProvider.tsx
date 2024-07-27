@@ -49,7 +49,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
   
     const handleLogin = () => {
-      window.location.assign(`https://github.com/login/oauth/authorize?client_id=${process.env.REACT_APP_CLIENT_ID_GITHUB}`);
+      const scope = 'repo';
+      window.location.assign(`https://github.com/login/oauth/authorize?client_id=${process.env.REACT_APP_CLIENT_ID_GITHUB}&scope=${scope}`);
     };
   
     return (

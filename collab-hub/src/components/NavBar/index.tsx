@@ -20,7 +20,7 @@ function NavBar() {
 
   return (
     <>
-        <nav className="bg-white border-gray-200 dark:bg-black">
+        <nav className="bg-white border-gray-200 border-b-2 dark:bg-black">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <a href="/" className="flex items-center space-x-3 ">
             <img src={collabHub} className="h-10" alt="CollabHub Logo" />
