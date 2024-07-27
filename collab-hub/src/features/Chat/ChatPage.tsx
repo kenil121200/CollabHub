@@ -12,8 +12,8 @@ interface User {
 }
 
 interface Group {
-  id: string;
-  name: string;
+  _id: string;
+  projectName: string;
 }
 
 interface Message {
@@ -26,11 +26,7 @@ interface Message {
 }
 
 const ChatPage: React.FC = () => {
-  const [groups, setGroups] = useState<Group[]>([
-    { id: '1', name: 'Code Collab Group' },
-    { id: '2', name: 'UUID Open-source Group' },
-    { id: '3', name: 'Flask Open-source Group' },
-  ]);
+  const [groups, setGroups] = useState<Group[]>([]);
   const [selectedGroup, setSelectedGroup] = useState<Group | null>(groups[0]);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -41,15 +37,26 @@ const ChatPage: React.FC = () => {
   console.log(currentUser);
 
   useEffect(() => {
+    if (groups.length === 0) {
+      axios.post(`http://localhost:8081/contributedProjects/fetchProjects`, 
+        { contributorEmail: currentUser.username }
+      ).then(response => {
+        console.log(response.data);
+        setGroups(response.data);
+        setSelectedGroup(response.data[0]);
+      });
+    }
     if (selectedGroup) {
       // Fetch initial messages
-      axios.get(`http://localhost:8081/chat/messages/${selectedGroup.id}`).then(response => {
+      axios.get(`http://localhost:8081/chat/messages/${selectedGroup._id}`).then(response => {
         console.log(response.data);
         setMessages(response.data);
-      });
+      }).catch(err => {
+        console.log("No chat histroy exist for this chat group")
+      })
 
       // Subscribe to Pusher channels
-      const channel = pusher.subscribe(selectedGroup.id);
+      const channel = pusher.subscribe(selectedGroup._id);
 
       channel.bind('message', (newMessage: Message) => {
         setMessages(prevMessages => [...prevMessages, newMessage]);
@@ -60,7 +67,7 @@ const ChatPage: React.FC = () => {
         channel.unsubscribe();
       };
     }
-  }, [selectedGroup]);
+  }, [groups, selectedGroup]);
 
   const handleLeaveGroup = () => {
     if (selectedGroup === null) return;
@@ -69,19 +76,19 @@ const ChatPage: React.FC = () => {
       _id: messages.length + 1,
       message: `${currentUser.username} has left the group`,
       isSent: false,
-      groupId: selectedGroup.id,
+      groupId: selectedGroup._id,
       user: { username: 'system', name: 'System' },
       timestamp: new Date(),
     };
 
     axios.post('http://localhost:8081/chat/leave', {
-      groupId: selectedGroup.id,
+      groupId: selectedGroup._id,
       username: currentUser.username,
       message: leaveMessage
     }).then(response => {
       // Remove user from group and notify other users
       const groupIndex = groups.indexOf(selectedGroup);
-      const newGroups = groups.filter(group => group.id !== selectedGroup.id);
+      const newGroups = groups.filter(group => group._id !== selectedGroup._id);
 
       if (newGroups.length > 0) {
         const nextGroupIndex = groupIndex === newGroups.length ? groupIndex - 1 : groupIndex;
@@ -112,7 +119,7 @@ const ChatPage: React.FC = () => {
         _id: messages.length + 1,
         message: newMessage,
         isSent: true,
-        groupId: selectedGroup.id,
+        groupId: selectedGroup._id,
         user: currentUser,
         timestamp: new Date(),
       };
@@ -151,13 +158,13 @@ const ChatPage: React.FC = () => {
           <div className="space-y-2 text-left">
             {groups.map(group => (
               <p
-                key={group.id}
+                key={group._id}
                 className={`text-gray-300 hover:bg-gray-700 hover:text-white cursor-pointer p-2 rounded ${
-                  selectedGroup?.id === group.id ? 'bg-gray-700 text-white' : ''
+                  selectedGroup?._id === group._id ? 'bg-gray-700 text-white' : ''
                 }`}
                 onClick={() => setSelectedGroup(group)}
               >
-                {group.name}
+                {group.projectName}
               </p>
             ))}
           </div>
@@ -166,7 +173,7 @@ const ChatPage: React.FC = () => {
           {selectedGroup ? (
             <>
               <div className="p-4 bg-white flex items-center justify-between border-b border-gray-300">
-                <h2 className="text-xl font-semibold">{selectedGroup.name}</h2>
+                <h2 className="text-xl font-semibold">{selectedGroup.projectName}</h2>
                 <button
                   className="px-4 py-2 bg-red-500 text-white rounded-md"
                   onClick={() => setShowModal(true)}
@@ -175,29 +182,33 @@ const ChatPage: React.FC = () => {
                 </button>
               </div>
               <div className="flex-1 overflow-y-auto p-4">
-                {messages
-                  .filter(message => message.groupId === selectedGroup.id)
-                  .map((message) => (
-                    <div
-                      key={message._id}
-                      className={`mb-2 p-2 rounded-lg text-sm max-w-xs ${
-                        message.user.username === 'system'
-                          ? 'bg-gray-600 text-white text-center mx-auto'
-                          : message.user.username === currentUser.username
-                          ? 'bg-gray-900 text-white ml-auto'
-                          : 'bg-gray-800 text-white mr-auto'
-                      }`}
-                      style={{ alignSelf: message.user.username === 'system' ? 'center' : message.user.username === currentUser.username ? 'flex-end' : 'flex-start' }}
-                    >
-                      <div>{message.message}</div>
-                      {message.user.username !== 'system' && (
-                        <div className="text-xs text-gray-400 mt-1">
-                          <div>{new Date(message.timestamp).toLocaleTimeString()}</div>
-                          <div>{message.user.username}</div>
-                        </div>
-                      )}
-                    </div>
-                  ))}
+                {messages.length === 0 ? (
+                  <div className="text-center text-gray-500">Start the conversation...</div>
+                ) : (
+                  messages
+                    .filter(message => message.groupId === selectedGroup._id)
+                    .map((message) => (
+                      <div
+                        key={message._id}
+                        className={`mb-2 p-2 rounded-lg text-sm max-w-xs ${
+                          message.user.username === 'system'
+                            ? 'bg-gray-600 text-white text-center mx-auto'
+                            : message.user.username === currentUser.username
+                            ? 'bg-gray-900 text-white ml-auto'
+                            : 'bg-gray-800 text-white mr-auto'
+                        }`}
+                        style={{ alignSelf: message.user.username === 'system' ? 'center' : message.user.username === currentUser.username ? 'flex-end' : 'flex-start' }}
+                      >
+                        <div>{message.message}</div>
+                        {message.user.username !== 'system' && (
+                          <div className="text-xs text-gray-400 mt-1">
+                            <div>{new Date(message.timestamp).toLocaleTimeString()}</div>
+                            <div>{message.user.username}</div>
+                          </div>
+                        )}
+                      </div>
+                    ))
+                )}
               </div>
               <div className="p-4 bg-white flex items-center">
                 <input
