@@ -9,6 +9,8 @@ import { LoginPage, NavBar, HomePage } from "./components";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ProfileScreen from "./features/Profile/ProfileScreen";
+import FindDeveloper from "./features/FindDeveloper/FindDeveloper";
+import ViewDeveloper from "./features/FindDeveloper/ViewDeveloper";
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
           <Route path="/faqs" element={<Faqs />} />
           <Route path="/contact-us" element={<ContactUs />} />
           <Route path="/Profile" element={<ProfileScreen />} />
+          <Route path="/developers" element={<FindDeveloper />} />
+          <Route path="/getDeveloper/:id" element={<ViewDeveloper />} />
         </Routes>
       </Router>
     </>

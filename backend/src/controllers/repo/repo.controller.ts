@@ -10,21 +10,24 @@ class RepoController {
     const url = 'https://api.github.com/user/repos';
     const options = {
       headers: {
-        'Authorization': `token ${accessToken}`,
-        'Content-Type': 'application/json'
+        'Accept': 'application/vnd.github+json',
+        'Authorization': `Bearer ${accessToken}`,
+        'X-GitHub-Api-Version': '2022-11-28'
       }
     };
     const body = {
       name: repoName,
       description: repoDescription,
-      private: privateRepo
+      private: privateRepo,
+      homepage:"https://github.com",
+      is_template:false
     };
 
     try {
       const response = await axios.post(url, body, options);
       res.json(response.data);
     } catch (error) {
-      res.status(500).json({ error: (error as any).message });
+      res.status(500).json({ error: "repositroy exists choose another name" });
     }
   }
 
