@@ -36,6 +36,17 @@ class ListedProjectsServices {
     }
   }
 
+  async fetchAllProjects(): Promise<Project[] | null> {
+    try {
+      const db = client.db(dbName);
+      const collection = db.collection<Project>("projects");
+      const allProjects = await collection.find({}).toArray();
+      return allProjects;
+    } catch (error) {
+      console.error("Error fetching all projects:", error);
+      throw error;
+    }
+  }
   async fetchProjectById(id: string): Promise<Project | null> {
     try {
       const db = client.db(dbName);
