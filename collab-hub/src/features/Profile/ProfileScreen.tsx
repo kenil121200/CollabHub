@@ -61,15 +61,13 @@ const ProfilePage: React.FC = () => {
   const [newSkill, setNewSkill] = useState("");
 
   useEffect(() => {
-    const user = localStorage.getItem("user");
-    if (user) {
-      const userObject = JSON.parse(user);
-      const userName = userObject.login;
+    const email = localStorage.getItem("email");
+    if (email) {
       const fetchProfileData = async () => {
         try {
           const response = await axios.post(
             `${process.env.REACT_APP_BACKEND_LINK}/profile/fetchProfile`,
-            { userName }
+            { email }
           );
           const data = response.data;
 
@@ -126,15 +124,12 @@ const ProfilePage: React.FC = () => {
   };
 
   const updateProfile = async () => {
-    const user = localStorage.getItem("user");
-    if (user) {
-      const userObject = JSON.parse(user);
-      const userName = userObject.login;
-
+    const email = localStorage.getItem("email");
+    if (email) {
       try {
         await axios.post(
           `${process.env.REACT_APP_BACKEND_LINK}/profile/updateProfile`,
-          { userName, ...profile }
+          { email, ...profile }
         );
         setIsEditing(false);
       } catch (err) {

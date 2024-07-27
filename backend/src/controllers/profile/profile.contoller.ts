@@ -7,20 +7,41 @@ class ProfileController {
 
   async fetchProfile(req: Request, res: Response): Promise<Response> {
     try {
-      const { userName } = req.body;
+      const { email } = req.body;
 
       // Validate the request parameter
-      if (!userName) {
+      if (!email) {
         return res.status(400).json({ message: "Email parameter is required" });
       }
 
       // Call the service method to fetch the profile
-      const profile = await profileService.fetchProfile(userName);
+      const profile = await profileService.fetchProfile(email);
 
       if (profile) {
         return res.status(200).json(profile);
       } else {
         return res.status(404).json({ message: "Profile not found" });
+      }
+    } catch (error) {
+      return res.status(500).json({ message: "Internal server error" });
+    }
+  }
+
+  async checkUserExists(req: Request, res: Response): Promise<Response> {
+    try {
+      const { email } = req.body; // Use req.params to get the email from the URL parameters
+
+      // Validate the request parameter
+      if (!email) {
+        return res.status(400).json({ message: "Email parameter is required" });
+      }
+
+      const exists = await profileService.checkUserExists(email);
+
+      if (exists) {
+        return res.status(200).json({ exists: true });
+      } else {
+        return res.status(404).json({ exists: false });
       }
     } catch (error) {
       return res.status(500).json({ message: "Internal server error" });
@@ -67,17 +88,17 @@ class ProfileController {
 
   async updateProfile(req: Request, res: Response): Promise<Response> {
     try {
-      const { userName } = req.body;
+      const { email } = req.body;
 
       // Validate the request parameters
-      if (!userName) {
+      if (!email) {
         return res.status(400).json({ message: "Missing parameters" });
       }
 
       // Create the profile update object
 
       // Call the service method to update the profile
-      const result = await profileService.updateProfile(userName, req.body);
+      const result = await profileService.updateProfile(email, req.body);
       if (result.modifiedCount === 1 || result.matchedCount === 1) {
         return res
           .status(200)

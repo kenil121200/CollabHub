@@ -11,6 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 import ProfileScreen from "./features/Profile/ProfileScreen";
 import FindDeveloper from "./features/FindDeveloper/FindDeveloper";
 import ViewDeveloper from "./features/FindDeveloper/ViewDeveloper";
+import ProfileInformation from "./components/ProfileInformation/ProfileInformation";
 
 function App() {
   return (
@@ -25,7 +26,8 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/faqs" element={<Faqs />} />
           <Route path="/contact-us" element={<ContactUs />} />
-          <Route path="/Profile" element={<ProfileScreen />} />
+          <Route path="/profile-setup" element={<ProfileInformation />} />
+          <Route path="/profile" element={<ProfileScreen />} />
           <Route path="/developers" element={<FindDeveloper />} />
           <Route path="/getDeveloper/:id" element={<ViewDeveloper />} />
         </Routes>
