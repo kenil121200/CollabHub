@@ -37,7 +37,7 @@ const ChatPage: React.FC = () => {
   useEffect(() => {
     if (selectedGroup) {
       // Fetch initial messages
-      axios.get(`http://localhost:8081/chat/messages/${selectedGroup._id}`).then(response => {
+      axios.get(`${process.env.REACT_APP_BACKEND_LINK}/chat/messages/${selectedGroup._id}`).then(response => {
         setMessages(response.data);
       }).catch(err => {
         console.log("No chat history exists for this chat group")
@@ -59,7 +59,7 @@ const ChatPage: React.FC = () => {
 
   useEffect(() => {
     if (groups.length === 0) {
-      axios.post(`http://localhost:8081/contributedProjects/fetchProjects`, 
+      axios.post(`${process.env.REACT_APP_BACKEND_LINK}/contributedProjects/fetchProjects`, 
         { contributorEmail: currentUser.username }
       ).then(response => {
         setGroups(response.data);
@@ -80,7 +80,7 @@ const ChatPage: React.FC = () => {
       timestamp: new Date(),
     };
 
-    axios.post('http://localhost:8081/chat/leave', {
+    axios.post(`${process.env.REACT_APP_BACKEND_LINK}/chat/leave`, {
       groupId: selectedGroup._id,
       username: currentUser.username,
       message: leaveMessage
@@ -122,7 +122,7 @@ const ChatPage: React.FC = () => {
         timestamp: new Date(),
       };
 
-      axios.post('http://localhost:8081/chat/message', message).then(response => {
+      axios.post(`${process.env.REACT_APP_BACKEND_LINK}/chat/message`, message).then(response => {
         setNewMessage('');
       }).catch(error => {
         toast.error('Error sending message', {
