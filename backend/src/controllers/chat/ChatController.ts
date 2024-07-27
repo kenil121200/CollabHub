@@ -1,3 +1,5 @@
+// Author: Jay Patel
+
 import chatService from "../../services/chat/ChatService";
 import { Request, Response } from "express";
 import { ChatMessage, TypingIndicator } from "../../types/ChatTypes";
