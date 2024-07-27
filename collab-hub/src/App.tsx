@@ -5,6 +5,8 @@ import LandingPage from "./features/landing-page/LandingPageScreen";
 import ContactUs from "./features/ContactUs/ContactUs";
 import Faqs from "./features/Faqs/Faqs";
 import Home from "./features/Home/Home";
+import "react-toastify/dist/ReactToastify.css";
+import Projects from "./features/ProjectsPage/Projects";
 import { LoginPage, NavBar, HomePage } from "./components";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -28,6 +30,7 @@ function App() {
           <Route path="/contact-us" element={<ContactUs />} />
           <Route path="/profile-setup" element={<ProfileInformation />} />
           <Route path="/profile" element={<ProfileScreen />} />
+          <Route path="/projects" element={<Projects />} />
           <Route path="/developers" element={<FindDeveloper />} />
           <Route path="/getDeveloper/:id" element={<ViewDeveloper />} />
         </Routes>
