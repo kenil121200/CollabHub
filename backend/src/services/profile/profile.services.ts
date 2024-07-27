@@ -4,13 +4,13 @@ import { Profile } from "../../types/ProfileTypes";
 class ProfileServices {
   constructor() {}
 
-  async fetchProfile(email: string): Promise<Profile | null> {
+  async fetchProfile(userName: string): Promise<Profile | null> {
     try {
       const db = client.db(dbName);
       const collection = db.collection<Profile>("profiles");
 
       // Find the profile document based on the email
-      const profile = await collection.findOne({ email: email });
+      const profile = await collection.findOne({ userName: userName });
 
       return profile;
     } catch (error) {

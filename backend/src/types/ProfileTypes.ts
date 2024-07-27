@@ -2,6 +2,7 @@ export interface Profile {
   firstName: string;
   lastName: string;
   email: string;
+  userName: string;
   age?: number;
   isVisible: boolean;
   gender: string;
