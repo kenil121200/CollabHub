@@ -20,7 +20,7 @@ function NavBar() {
 
   return (
     <>
-        <nav className="bg-white border-gray-200 dark:bg-black">
+        <nav className="bg-white border-gray-200 border-b-2 dark:bg-black">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <a href="/" className="flex items-center space-x-3 ">
             <img src={collabHub} className="h-10" alt="CollabHub Logo" />
@@ -58,10 +58,10 @@ function NavBar() {
                     <ul className="py-2" aria-labelledby="dropdownDividerButton">
                     <li>
                         <a
-                        href="#"
+                        href="/profile"
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                         >
-                        Dashboard
+                        Profile 
                         </a>
                     </li>
                     <li>
@@ -69,9 +69,17 @@ function NavBar() {
                         href="#"
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                         >
-                        Settings
+                        Dashboard
                         </a>
                     </li>
+                    {/* <li>
+                        <a
+                        href="#"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                        >
+                        Settings
+                        </a>
+                    </li> */}
                     <li>
                         <a
                         href="/chat"

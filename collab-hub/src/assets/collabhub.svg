@@ -2,7 +2,7 @@
   <!-- Background -->
 
   <!-- Text -->
-  <text x="120" y="65" font-family="Arial, sans-serif" font-size="44" fill="white" font-weight="bold">
+  <text x="120" y="65" font-family="Arial, sans-serif" font-size="44" fill="#00b33c" font-weight="bold">
     Collab
     <tspan fill="#0073e6" font-weight="bold">Hub</tspan>
   </text>

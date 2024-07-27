@@ -32,28 +32,16 @@ const ChatPage: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState<string>('');
   const user = getAuthenticaticatedUser();
-  console.log(user);
   const currentUser: User = { username: user.login, name: user.name };
-  console.log(currentUser);
 
   useEffect(() => {
-    if (groups.length === 0) {
-      axios.post(`http://localhost:8081/contributedProjects/fetchProjects`, 
-        { contributorEmail: currentUser.username }
-      ).then(response => {
-        console.log(response.data);
-        setGroups(response.data);
-        setSelectedGroup(response.data[0]);
-      });
-    }
     if (selectedGroup) {
       // Fetch initial messages
       axios.get(`http://localhost:8081/chat/messages/${selectedGroup._id}`).then(response => {
-        console.log(response.data);
         setMessages(response.data);
       }).catch(err => {
-        console.log("No chat histroy exist for this chat group")
-      })
+        console.log("No chat history exists for this chat group")
+      });
 
       // Subscribe to Pusher channels
       const channel = pusher.subscribe(selectedGroup._id);
@@ -67,7 +55,18 @@ const ChatPage: React.FC = () => {
         channel.unsubscribe();
       };
     }
-  }, [groups, selectedGroup]);
+  }, [ selectedGroup]);
+
+  useEffect(() => {
+    if (groups.length === 0) {
+      axios.post(`http://localhost:8081/contributedProjects/fetchProjects`, 
+        { contributorEmail: currentUser.username }
+      ).then(response => {
+        setGroups(response.data);
+        setSelectedGroup(response.data[0]);
+      });
+    }
+  }, [])
 
   const handleLeaveGroup = () => {
     if (selectedGroup === null) return;
@@ -86,7 +85,6 @@ const ChatPage: React.FC = () => {
       username: currentUser.username,
       message: leaveMessage
     }).then(response => {
-      // Remove user from group and notify other users
       const groupIndex = groups.indexOf(selectedGroup);
       const newGroups = groups.filter(group => group._id !== selectedGroup._id);
 
@@ -152,7 +150,7 @@ const ChatPage: React.FC = () => {
 
   return (
     <div className="flex flex-col h-screen">
-      <div className="mt-10 flex flex-1 overflow-hidden">
+      <div className="flex flex-1 overflow-hidden">
         <div className="bg-gray-800 w-64 h-full flex flex-col p-4">
           <h3 className="text-white mb-4 text-left font-semibold">Groups</h3>
           <div className="space-y-2 text-left">
@@ -169,10 +167,10 @@ const ChatPage: React.FC = () => {
             ))}
           </div>
         </div>
-        <div className="flex flex-col flex-1 bg-gray-100">
+        <div className="flex flex-col flex-1 bg-gray-100 relative">
           {selectedGroup ? (
             <>
-              <div className="p-4 bg-white flex items-center justify-between border-b border-gray-300">
+              <div className="sticky top-0 left-0 right-0 p-4 bg-white flex items-center justify-between border-b border-gray-300 z-10">
                 <h2 className="text-xl font-semibold">{selectedGroup.projectName}</h2>
                 <button
                   className="px-4 py-2 bg-red-500 text-white rounded-md"
@@ -210,7 +208,7 @@ const ChatPage: React.FC = () => {
                     ))
                 )}
               </div>
-              <div className="p-4 bg-white flex items-center">
+              <div className="p-4 bg-white border-t border-gray-300 flex items-center">
                 <input
                   type="text"
                   placeholder="Type a message"
@@ -219,7 +217,7 @@ const ChatPage: React.FC = () => {
                   onChange={(e) => setNewMessage(e.target.value)}
                 />
                 <button
-                  className="p-2 bg-blue-500 text-white rounded-md"
+                  className="p-2 bg-blue-700 text-white rounded-md"
                   onClick={handleSendMessage}
                 >
                   Send
