@@ -74,6 +74,20 @@ class ListedProjectsController {
       return res.status(500).json({ message: "Internal server error" });
     }
   }
+
+  async fetchAllProjects(req: Request, res: Response): Promise<Response> {
+    try {
+      const allProjects = await listedProjectsServices.fetchAllProjects();
+      if (allProjects) {
+        return res.status(200).json(allProjects);
+      } else {
+        return res.status(404).json({ message: "No projects found" });
+      }
+    } catch (error) {
+      console.log("ListedProjectsController : ", error);
+      return res.status(500).json({ message: "Internal server error" });
+    }
+  }
 }
 
 export default new ListedProjectsController();
