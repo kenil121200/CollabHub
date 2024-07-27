@@ -8,21 +8,39 @@ class AuthController {
   constructor() {}
 
   async getAccessToken(req: Request, res: Response): Promise<void> {
+    const code = req.query.code as string;
+    console.log(req.query);
+    if (!code) {
+      console.log('Missing authorization code');
+      
+      res.status(400).json({ error: 'Missing authorization code' });
+      return;
+    }
+
     const params = new URLSearchParams({
       client_id: CLIENT_ID,
       client_secret: CLIENT_SECRET,
-      code: req.query.code as string,
+      code,
     });
 
     try {
-      const response = await axios.post(`https://github.com/login/oauth/access_token?${params.toString()}`, {}, {
-        headers: {
-          'Accept': 'application/json',
-        },
-      });
-      res.status(200).json(response.data);
+      const response = await axios.post(
+        `https://github.com/login/oauth/access_token?${params.toString()}`,
+        {},
+        {
+          headers: {
+            'Accept': 'application/json',
+          },
+        }
+      );
+      console.log(response.data);
+      if (response.data.error) {
+        res.status(400).json(response.data);
+      } else {
+        res.status(200).json(response.data);
+      }
     } catch (error) {
-      res.status(500).json({ error: 'Internal Server Error' });
+      res.status(500).json({ error: 'Internal Server Error', details: (error as any).response?.data });
     }
   }
 }
