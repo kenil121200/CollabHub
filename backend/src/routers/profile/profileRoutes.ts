@@ -9,5 +9,6 @@ router.use(express.json());
 router.post("/fetchProfile", profileController.fetchProfile);
 router.post("/setProfile", profileController.setProfile);
 router.post("/updateProfile", profileController.updateProfile);
+router.post("/userExist", profileController.checkUserExists);
 
 export default router;
