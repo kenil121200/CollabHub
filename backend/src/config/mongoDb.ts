@@ -15,4 +15,80 @@ async function connectDB() {
   }
 }
 
+const groups = [
+  {
+    groupId: "1",
+    name: "Code Collab Group"
+  },
+  {
+    groupId: "2",
+    name: "UUID Open-source Group"
+  },
+  {
+    groupId: "3",
+    name: "Flask Open-source Group"
+  }
+];
+
+const messages = [
+  {
+    message: "Welcome to the Code Collab Group!",
+    user: { username: "user1", name: "User One" },
+    groupId: "1",
+    timestamp: new Date()
+  },
+  {
+    message: "Hi everyone! Excited to collaborate.",
+    user: { username: "user2", name: "User Two" },
+    groupId: "1",
+    timestamp: new Date()
+  },
+  {
+    message: "Welcome to the UUID Open-source Group!",
+    user: { username: "user1", name: "User One" },
+    groupId: "2",
+    timestamp: new Date()
+  },
+  {
+    message: "Hello, looking forward to open-source contributions!",
+    user: { username: "user3", name: "User Three" },
+    groupId: "2",
+    timestamp: new Date()
+  },
+  {
+    message: "Welcome to the Flask Open-source Group!",
+    user: { username: "user1", name: "User One" },
+    groupId: "3",
+    timestamp: new Date()
+  },
+  {
+    message: "Let's build something awesome with Flask!",
+    user: { username: "user4", name: "User Four" },
+    groupId: "3",
+    timestamp: new Date()
+  }
+];
+
+async function insertDummyData() {
+  try {
+    await client.connect();
+    console.log("Connected to MongoDB");
+
+    const db = client.db(dbName);
+    const groupsCollection = db.collection("groups");
+    const messagesCollection = db.collection("chats");
+
+    await groupsCollection.insertMany(groups);
+    await messagesCollection.insertMany(messages);
+
+    console.log("Inserted dummy data");
+  } catch (error) {
+    console.error("Error inserting dummy data:", error);
+  } finally {
+    await client.close();
+  }
+}
+
+// insertDummyData();
+
 export { client, connectDB, dbName };
