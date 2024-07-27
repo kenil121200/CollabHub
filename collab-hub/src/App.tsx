@@ -14,6 +14,7 @@ import ProfileScreen from "./features/Profile/ProfileScreen";
 import FindDeveloper from "./features/FindDeveloper/FindDeveloper";
 import ViewDeveloper from "./features/FindDeveloper/ViewDeveloper";
 import ProfileInformation from "./components/ProfileInformation/ProfileInformation";
+import UserProjects from "./features/UserProjects/UserProject";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           <Route path="/developers" element={<FindDeveloper />} />
           <Route path="/getDeveloper/:id" element={<ViewDeveloper />} />
           <Route path="/chat" element={<ChatPage />} />
+          <Route path="/user-projects" element={<UserProjects />} />
         </Routes>
       </Router>
     </>
