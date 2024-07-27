@@ -11,7 +11,6 @@ class ProfileServices {
 
       // Find the profile document based on the email
       const profile = await collection.findOne({ userName: userName });
-
       return profile;
     } catch (error) {
       console.error("Error fetching profile:", error);
@@ -36,17 +35,16 @@ class ProfileServices {
   }
 
   async updateProfile(
-    email: string,
+    userName: string,
     updatedProfile: Partial<Profile>
   ): Promise<any> {
     try {
       const db = client.db(dbName);
       const collection = db.collection<Profile>("profiles");
-
-      // Update the profile document based on the email
+      const { _id, ...filteredProfile } = updatedProfile;
       const result = await collection.updateOne(
-        { email: email },
-        { $set: updatedProfile }
+        { userName: userName },
+        { $set: filteredProfile }
       );
       return result;
     } catch (error) {
