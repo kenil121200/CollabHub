@@ -1,10 +1,12 @@
+//Author : Jainish Patel
+
 import React, { useCallback, useEffect, useState } from 'react';
 import { Box, Grid, useMediaQuery, useTheme, Button, Modal, Typography } from '@mui/material';
 import ProjectCard from '../ProjectCard';
 import SearchBar from '../SearchBar';
 import Stats from '../Stats';
 import { Project } from '../../../types/ProjectTypes';
-import NewProjectForm from '../ProjectForm';
+import NewProjectForm from './ProjectForm';
 import axios from 'axios';
 
 const ListedProjects: React.FC = () => {
@@ -20,7 +22,7 @@ const ListedProjects: React.FC = () => {
     const fetchListedProjects = useCallback(async () => {
         try {
             const response = await axios.post<Project[]>(
-                "http://localhost:8081/listedProjects/fetchProjects",
+                `${process.env.REACT_APP_BACKEND_LINK}/listedProjects/fetchProjects`,
                 { "createdByEmail": "jainish@gmail.com" }
             );
             setProjects(response.data);

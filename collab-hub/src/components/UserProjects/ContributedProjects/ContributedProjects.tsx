@@ -1,3 +1,5 @@
+//Author : Jainish Patel
+
 import React, { useEffect, useState } from 'react';
 import { Box, Grid, useMediaQuery, useTheme } from '@mui/material';
 import ProjectCard from '../ProjectCard';
@@ -16,7 +18,7 @@ const ContributedProjects: React.FC = () => {
         const fetchContributedProjects = async () => {
             try {
                 const response = await axios.post<Project[]>(
-                    "http://localhost:8081/contributedProjects/fetchProjects",
+                    `${process.env.REACT_APP_BACKEND_LINK}/contributedProjects/fetchProjects`,
                     { "contributorEmail": "jainish@gmail.com" }
                 );
                 setProjects(response.data);

@@ -1,3 +1,5 @@
+//Author : Jainish Patel
+
 import React from 'react';
 import { Box, Card, CardContent, Typography } from '@mui/material';
 import { Project } from '../../types/ProjectTypes';
