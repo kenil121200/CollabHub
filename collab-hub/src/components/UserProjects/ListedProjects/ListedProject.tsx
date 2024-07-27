@@ -21,9 +21,10 @@ const ListedProjects: React.FC = () => {
 
     const fetchListedProjects = useCallback(async () => {
         try {
+            const email = localStorage.getItem("email");
             const response = await axios.post<Project[]>(
                 `${process.env.REACT_APP_BACKEND_LINK}/listedProjects/fetchProjects`,
-                { "createdByEmail": "jainish@gmail.com" }
+                { "createdByEmail": email }
             );
             setProjects(response.data);
         } catch (err) {
@@ -79,7 +80,7 @@ const ListedProjects: React.FC = () => {
                             ))}
                         </Grid>
                         <Grid item xs={12} md={4}>
-                            <Stats />
+                            <Stats count={projects.length} />
                         </Grid>
                     </Grid>
                 </Box>

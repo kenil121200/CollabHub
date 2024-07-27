@@ -5,12 +5,14 @@ import { Box, Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEve
 import { toast } from 'react-toastify';
 import { Project } from '../../../types/ProjectTypes';
 import axios from 'axios';
+import { getAuthenticaticatedUser } from '../../../context/FetchUser';
 
 interface NewProjectFormProps {
     onSubmit: (project: Project) => void;
 }
 
 const ProjectForm: React.FC<NewProjectFormProps> = ({ onSubmit }) => {
+    const createdByEmail = localStorage.getItem("email");
     const [projectName, setProjectName] = useState('');
     const [projectDescription, setProjectDescription] = useState('');
     const [projectTechnologies, setProjectTechnologies] = useState<string[]>([]);
@@ -21,21 +23,22 @@ const ProjectForm: React.FC<NewProjectFormProps> = ({ onSubmit }) => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log("...", projectTechnologies.join(','));
-        const newProject: Project = {
-            createdByEmail: "jainish@gmail.com",
-            projectName,
-            projectDescription,
-            projectTechnologies: projectTechnologies.join(','),
-            projectDomain
-        };
-        try {
-            const response = await axios.post(`${process.env.REACT_APP_BACKEND_LINK}/listedProjects/createNewProject`, newProject);
-            toast.success("Project added successfully");
-            onSubmit(response.data);
-        } catch (error) {
-            console.error('Error creating project:', error);
-            toast.error("Failed to add project");
+        if (createdByEmail) {
+            const newProject: Project = {
+                createdByEmail,
+                projectName,
+                projectDescription,
+                projectTechnologies: projectTechnologies.join(','),
+                projectDomain
+            };
+            try {
+                const response = await axios.post(`${process.env.REACT_APP_BACKEND_LINK}/listedProjects/createNewProject`, newProject);
+                toast.success("Project added successfully");
+                onSubmit(response.data);
+            } catch (error) {
+                console.error('Error creating project:', error);
+                toast.error("Failed to add project");
+            }
         }
     };
 

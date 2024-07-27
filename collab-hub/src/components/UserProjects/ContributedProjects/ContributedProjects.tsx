@@ -17,9 +17,10 @@ const ContributedProjects: React.FC = () => {
     useEffect(() => {
         const fetchContributedProjects = async () => {
             try {
+                const email = localStorage.getItem("email");
                 const response = await axios.post<Project[]>(
                     `${process.env.REACT_APP_BACKEND_LINK}/contributedProjects/fetchProjects`,
-                    { "contributorEmail": "jainish@gmail.com" }
+                    { "contributorEmail": email }
                 );
                 setProjects(response.data);
             } catch (err) {
@@ -56,7 +57,7 @@ const ContributedProjects: React.FC = () => {
                             ))}
                         </Grid>
                         <Grid item xs={12} md={4}>
-                            <Stats />
+                            <Stats count={projects.length} />
                         </Grid>
                     </Grid>
                 </Box>
