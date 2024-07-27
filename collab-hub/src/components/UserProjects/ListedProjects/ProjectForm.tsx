@@ -5,7 +5,6 @@ import { Box, Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEve
 import { toast } from 'react-toastify';
 import { Project } from '../../../types/ProjectTypes';
 import axios from 'axios';
-import { getAuthenticaticatedUser } from '../../../context/FetchUser';
 
 interface NewProjectFormProps {
     onSubmit: (project: Project) => void;
