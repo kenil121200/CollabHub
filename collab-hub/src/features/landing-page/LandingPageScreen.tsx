@@ -1,3 +1,5 @@
+//@ Author: B00981839-Krutik Kulkarni
+
 import React from "react";
 import Landigpage from "../../components/ui-components/landing-page/Landigpage";
 import {
@@ -81,9 +83,16 @@ const LandingPage: React.FC = () => {
         <LeftOverlay />
         <RightOverlay />
         <LogosSlide>
-          {logos.concat(logos).concat(logos).map((logo, index) => (
-            <LogoImage key={index} src={logo.logo} alt={`Logo ${index + 1}`} />
-          ))}
+          {logos
+            .concat(logos)
+            .concat(logos)
+            .map((logo, index) => (
+              <LogoImage
+                key={index}
+                src={logo.logo}
+                alt={`Logo ${index + 1}`}
+              />
+            ))}
         </LogosSlide>
       </LogosContainer>
 
@@ -91,7 +100,8 @@ const LandingPage: React.FC = () => {
         <DetailsContsiner>
           <Title>CollabHub</Title>
           <Text>
-            Discover open source projects on GitHub that match your skills and interests for meaningful contributions.
+            Discover open source projects on GitHub that match your skills and
+            interests for meaningful contributions.
           </Text>
           <FollowUsContainer>
             <Text>Follow Us:</Text>

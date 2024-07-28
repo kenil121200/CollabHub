@@ -1,3 +1,4 @@
+//@ Author: B00981839-Krutik Kulkarni
 // Author: Jay Patel
 
 import bodyParser from "body-parser";
@@ -23,7 +24,7 @@ const pusher = new Pusher({
   key: "0ad0b6a34adab474cc3c",
   secret: "e3b685dae4d046230ede",
   cluster: "us2",
-  useTLS: true
+  useTLS: true,
 });
 
 // pusher.trigger("my-channel", "my-event", {
@@ -43,6 +44,4 @@ const pusher = new Pusher({
 })();
 app.use("/", router);
 
-
 export { pusher };
-

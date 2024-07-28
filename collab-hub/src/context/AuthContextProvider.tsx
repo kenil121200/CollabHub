@@ -1,3 +1,5 @@
+// Author: Kenil Patel
+
 import { useEffect, useState } from "react";
 import { AuthContextProvider }  from "./AuthContext";
 
@@ -44,6 +46,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const logout = () => {
       localStorage.removeItem('accessToken');
       localStorage.removeItem('user');
+      localStorage.removeItem('email');
       setIsAuthenticated(false);
       setUser(null);
     };

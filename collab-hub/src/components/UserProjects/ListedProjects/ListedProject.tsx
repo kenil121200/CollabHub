@@ -75,9 +75,15 @@ const ListedProjects: React.FC = () => {
                     </Grid>
                     <Grid container spacing={2}>
                         <Grid item xs={12} md={8}>
-                            {filteredProjects.map((project, index) => (
-                                <ProjectCard key={index} project={project} />
-                            ))}
+                            {filteredProjects.length > 0 ? (
+                                filteredProjects.map((project, index) => (
+                                    <ProjectCard key={index} project={project} />
+                                ))
+                            ) : (
+                                <Typography variant="h6" style={{ margin: '20px' }}>
+                                    No projects found.
+                                </Typography>
+                            )}
                         </Grid>
                         <Grid item xs={12} md={4}>
                             <Stats count={projects.length} />

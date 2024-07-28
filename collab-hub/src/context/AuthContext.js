@@ -1,3 +1,4 @@
+// Author: Kenil Patel
 import React, { createContext, useContext} from 'react';
 
 const AuthContextType = {

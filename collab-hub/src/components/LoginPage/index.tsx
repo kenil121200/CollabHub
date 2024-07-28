@@ -1,3 +1,5 @@
+// Author: Kenil Patel
+
 import React, { useState, ChangeEvent } from "react";
 import githubLogo from "../../assets/github.svg";
 import Animation from "../Animation";
@@ -41,6 +43,7 @@ function LoginPage() {
     if (!email) {
       setError("Email is required.");
     } else {
+      localStorage.setItem("email", email)
       const userExists = await checkUserExists(email);
       if (userExists) {
         // User exists, navigate to profile setup
