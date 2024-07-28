@@ -1,3 +1,5 @@
+// Author: Kenil Patel
+
 import { connectDB, client, dbName } from "../../config/mongoDb";
 import { User } from "../../types/UserTypes";
 

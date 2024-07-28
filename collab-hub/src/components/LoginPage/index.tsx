@@ -1,3 +1,5 @@
+// Author: Kenil Patel
+
 import React, { useState, ChangeEvent } from "react";
 import githubLogo from "../../assets/github.svg";
 import Animation from "../Animation";

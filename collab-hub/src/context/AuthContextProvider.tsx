@@ -1,3 +1,5 @@
+// Author: Kenil Patel
+
 import { useEffect, useState } from "react";
 import { AuthContextProvider }  from "./AuthContext";
 
