@@ -28,7 +28,7 @@ const FindDeveloper: React.FC = () => {
     const fetchDevelopers = async () => {
       try {
         const response = await axios.get<Profile[]>(
-          "http://localhost:8081/find-developers/developers"
+          `${process.env.REACT_APP_BACKEND_LINK}/find-developers/developers`
         );
         setDevelopers(response.data);
       } catch (err) {
