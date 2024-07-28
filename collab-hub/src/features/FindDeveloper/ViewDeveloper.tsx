@@ -22,7 +22,7 @@ const ViewDeveloper = () => {
   useEffect(() => {
     const fetchDeveloper = async () => {
       const response = await axios.get(
-        `http://localhost:8081/find-developers/developer/${id}`
+        `${process.env.REACT_APP_BACKEND_LINK}/find-developers/developer/${id}`
       );
       setDeveloper(response.data);
     };

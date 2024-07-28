@@ -28,7 +28,7 @@ const FindDeveloper: React.FC = () => {
     const fetchDevelopers = async () => {
       try {
         const response = await axios.get<Profile[]>(
-          "http://localhost:8081/find-developers/developers"
+          `${process.env.REACT_APP_BACKEND_LINK}/find-developers/developers`
         );
         setDevelopers(response.data);
       } catch (err) {
@@ -97,7 +97,7 @@ const FindDeveloper: React.FC = () => {
             <input
               type="text"
               placeholder="Type here to search..."
-              className="p-3 border rounded w-full md:w-1/2 focus:border-blue-500 focus:ring focus:ring-blue-500 transition duration-150"
+              className="p-3 border-2 border-gray-300 rounded w-full md:w-1/2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 transition duration-150 shadow-sm"
               value={searchTerm}
               onChange={handleSearchChange}
             />
