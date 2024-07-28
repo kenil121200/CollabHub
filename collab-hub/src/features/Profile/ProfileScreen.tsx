@@ -41,7 +41,7 @@ const ProfilePage: React.FC = () => {
     age: number;
     gender: string;
     skills: string[];
-    userType: string;
+    typeOfUser: string;
     isVisible: boolean;
     contactNumber: string;
     profilePic: string;
@@ -51,7 +51,7 @@ const ProfilePage: React.FC = () => {
     age: 0,
     gender: "",
     skills: [],
-    userType: "",
+    typeOfUser: "",
     isVisible: true,
     contactNumber: "",
     profilePic: "",
@@ -296,13 +296,13 @@ const ProfilePage: React.FC = () => {
               {isEditing ? (
                 <TextField
                   name="userType"
-                  value={profile.userType}
+                  value={profile.typeOfUser}
                   onChange={handleChange}
                   variant="outlined"
                   fullWidth
                 />
               ) : (
-                <Value>{profile.userType}</Value>
+                <Value>{profile.typeOfUser}</Value>
               )}
             </HeaderAndValue>
             <HeaderAndValue>

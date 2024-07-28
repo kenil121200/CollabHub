@@ -1,3 +1,5 @@
+// Author: Jay Patel
+
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import collabHub from '../../assets/collabhub.svg';
@@ -8,7 +10,7 @@ function NavBar() {
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
   const { isAuthenticated, user, logout } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation(); 
+  const location = useLocation();
   const typedUser = user as { avatar_url: string, name: string, login: string } | null;
 
   const toggleDropdown = () => {
@@ -30,7 +32,7 @@ function NavBar() {
             <img src={collabHub} className="h-10" alt="CollabHub Logo" />
           </a>
           {isAuthenticated ? (
-            <div className="relative flex items-center md:order-2 space-x-3 md:space-x-0">
+            <div className="relative flex items-center md:order-2 space-x-3 md:space-x-0 ">
               <button
                 type="button"
                 className="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
@@ -49,19 +51,14 @@ function NavBar() {
                 )}
               </button>
               <div
-                className={`${
-                  isOpen ? 'absolute' : 'hidden'
-                } z-50 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600`}
+                className={`${isOpen ? 'absolute' : 'hidden'
+                  } z-50 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600`}
                 id="dropdownDivider"
                 style={{ top: '100%', left: -50, width: '200px' }}
               >
                 <div className="px-4 py-3">
-                  <span className="block text-sm text-gray-900 dark:text-white">
-                    {typedUser?.name}
-                  </span>
-                  <span className="block text-sm text-gray-500 truncate dark:text-gray-400">
-                    {typedUser?.login}
-                  </span>
+                  <span className="block text-sm text-gray-900 dark:text-white">{typedUser?.name}</span>
+                  <span className="block text-sm text-gray-500 truncate dark:text-gray-400">{typedUser?.login}</span>
                 </div>
                 <ul className="py-2" aria-labelledby="dropdownDividerButton">
                   <li>
@@ -78,6 +75,30 @@ function NavBar() {
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                     >
                       Dashboard
+                    </a>
+                  </li>
+                  {/* <li>
+                        <a
+                        href="#"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                        >
+                        Settings
+                        </a>
+                    </li> */}
+                  <li>
+                    <a
+                      href="/chat"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                    >
+                      Chat
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="/user-projects"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                    >
+                      Your Projects
                     </a>
                   </li>
                   <li>
@@ -129,9 +150,8 @@ function NavBar() {
             </svg>
           </button>
           <div
-            className={`items-center justify-between w-full md:flex md:w-auto md:order-1 ${
-              isNavbarOpen ? 'block' : 'hidden'
-            }`}
+            className={`items-center justify-between w-full md:flex md:w-auto md:order-1 ${isNavbarOpen ? 'block' : 'hidden'
+              }`}
             id="navbar-user"
           >
             <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-black md:dark:bg-black dark:border-gray-700">
