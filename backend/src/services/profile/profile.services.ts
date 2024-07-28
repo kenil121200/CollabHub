@@ -1,3 +1,5 @@
+//@ Author: B00981839-Krutik Kulkarni
+
 import { connectDB, client, dbName } from "../../config/mongoDb";
 import { Profile } from "../../types/ProfileTypes";
 

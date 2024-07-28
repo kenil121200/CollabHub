@@ -1,3 +1,5 @@
+//@ Author: B00981839-Krutik Kulkarni
+
 import styled, { keyframes } from "styled-components";
 import { FaEdit } from "react-icons/fa";
 
