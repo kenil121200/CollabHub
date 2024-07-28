@@ -1,4 +1,6 @@
 // Author: Tathya Kapadia
+// Author : Jainish Patel
+
 import { ObjectId } from "mongodb";
 import { client, dbName } from "../../config/mongoDb";
 import { Project } from "../../types/ProjectTypes";
