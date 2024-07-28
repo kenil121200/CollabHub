@@ -1,12 +1,11 @@
 //Author : Jainish Patel
 
-import { ObjectId } from "mongodb";
 export interface Project {
-  _id?: ObjectId;
-  createdByEmail: string;
+  _id?: string;
+  createdByEmail?: string;
   projectName: string;
   projectDescription: string;
-  contributorsEmail: string[];
+  contributorsEmail?: string[];
   projectTechnologies: string;
   projectDomain: string;
 }

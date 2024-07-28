@@ -1,3 +1,5 @@
+//Author : Jainish Patel
+
 import { Request, Response } from "express";
 import listedProjectsServices from "../../services/user projects/listedProjects.services";
 import { Project } from "../../types/ProjectTypes";
@@ -29,7 +31,7 @@ class ListedProjectsController {
         projectName: projectName,
         projectDescription: projectDescription,
         contributorsEmail: [],
-        projectTechnologies: projectDescription,
+        projectTechnologies: projectTechnologies,
         projectDomain: projectDomain,
       };
       listedProject.contributorsEmail.push(createdByEmail);
@@ -87,7 +89,7 @@ class ListedProjectsController {
       console.log("ListedProjectsController : ", error);
       return res.status(500).json({ message: "Internal server error" });
     }
-  } 
+  }
   async fetchProjectById(req: Request, res: Response): Promise<Response> {
     try {
       const Id = req.params.Id;
