@@ -41,6 +41,7 @@ function LoginPage() {
     if (!email) {
       setError("Email is required.");
     } else {
+      localStorage.setItem("email", email)
       const userExists = await checkUserExists(email);
       if (userExists) {
         // User exists, navigate to profile setup

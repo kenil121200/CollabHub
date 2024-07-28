@@ -119,7 +119,7 @@ const ProfileInformation: React.FC = () => {
     isVisible: boolean;
     contactNumber: string;
     profilePic: string;
-    email: string; // Added email field
+    email: string; 
   }>({
     firstName: "",
     lastName: "",
@@ -130,7 +130,7 @@ const ProfileInformation: React.FC = () => {
     isVisible: true,
     contactNumber: "",
     profilePic: "",
-    email: "", // Initialize email field
+    email: "", 
   });
   const { handleLogin } = useAuth();
   const [profilePic, setProfilePic] = useState("");
