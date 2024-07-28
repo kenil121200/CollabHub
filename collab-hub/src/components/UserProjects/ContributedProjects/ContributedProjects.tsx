@@ -1,7 +1,7 @@
 //Author : Jainish Patel
 
 import React, { useEffect, useState } from 'react';
-import { Box, Grid, useMediaQuery, useTheme } from '@mui/material';
+import { Box, Grid, Typography, useMediaQuery, useTheme } from '@mui/material';
 import ProjectCard from '../ProjectCard';
 import SearchBar from '../SearchBar';
 import Stats from '../Stats';
@@ -23,6 +23,7 @@ const ContributedProjects: React.FC = () => {
                     { "contributorEmail": email }
                 );
                 setProjects(response.data);
+
             } catch (err) {
                 console.log(err);
             }
@@ -52,9 +53,15 @@ const ContributedProjects: React.FC = () => {
                     </Grid>
                     <Grid container spacing={2}>
                         <Grid item xs={12} md={8}>
-                            {filteredProjects.map((project, index) => (
-                                <ProjectCard key={index} project={project} />
-                            ))}
+                            {filteredProjects.length > 0 ? (
+                                filteredProjects.map((project, index) => (
+                                    <ProjectCard key={index} project={project} />
+                                ))
+                            ) : (
+                                <Typography variant="h6" style={{ margin: '20px' }}>
+                                    No projects found.
+                                </Typography>
+                            )}
                         </Grid>
                         <Grid item xs={12} md={4}>
                             <Stats count={projects.length} />
