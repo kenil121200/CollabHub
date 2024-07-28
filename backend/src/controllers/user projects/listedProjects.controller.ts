@@ -1,4 +1,5 @@
-//Author : Jainish Patel
+// Author: Tathya Kapadia
+// Author : Jainish Patel
 
 import { Request, Response } from "express";
 import listedProjectsServices from "../../services/user projects/listedProjects.services";

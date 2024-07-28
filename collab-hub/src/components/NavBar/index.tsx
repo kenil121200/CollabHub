@@ -1,4 +1,4 @@
-// Author: Jay Patel
+// Author: Jay Patel, Tathya Kapadia
 
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
