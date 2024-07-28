@@ -1,3 +1,5 @@
+//Author : Jainish Patel
+
 import { toast } from 'react-toastify';
 import { Main, LeftTextSection, InfoContainer, Header, Text, Form, Input, TextArea, Button } from './ContactUsStyles';
 const ContactUs: React.FC = () => {
