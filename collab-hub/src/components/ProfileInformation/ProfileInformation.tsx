@@ -20,8 +20,9 @@ const PageContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  //   height: 100vh;
   background: #f0f2f5;
+  padding: 10px;
 `;
 
 const ProjectContainer = styled.div`
@@ -31,6 +32,9 @@ const ProjectContainer = styled.div`
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   max-width: 800px;
   width: 100%;
+  @media (max-width: 600px) {
+    padding: 15px;
+  }
 `;
 
 const ProjectInfo = styled.div`
@@ -95,6 +99,10 @@ const ButtonHolder = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
+  @media (max-width: 600px) {
+    flex-direction: column;
+    gap: 10px;
+  }
 `;
 
 // React Component
