@@ -1,3 +1,5 @@
+// Author: Piyush Joshi
+
 import React from "react";
 
 interface Profile {

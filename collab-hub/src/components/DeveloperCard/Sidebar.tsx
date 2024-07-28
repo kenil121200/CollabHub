@@ -1,3 +1,5 @@
+// Author: Piyush Joshi
+
 import React, { useState } from "react";
 
 interface SidebarProps {

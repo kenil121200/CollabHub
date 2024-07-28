@@ -1,4 +1,5 @@
 // Author: Jay Patel
+// Author: Piyush Joshi
 
 import React from "react";
 import "./App.css";

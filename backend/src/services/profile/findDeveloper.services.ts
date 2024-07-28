@@ -1,3 +1,5 @@
+// Author: Piyush Joshi
+
 import { ObjectId, WithId } from "mongodb";
 import { connectDB, client, dbName } from "../../config/mongoDb";
 import { Profile } from "../../types/ProfileTypes";

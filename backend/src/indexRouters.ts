@@ -1,4 +1,5 @@
 // Author: Jay Patel
+// Author: Piyush Joshi
 
 import express from "express";
 import authRoutes from "./routers/login/authRoutes";

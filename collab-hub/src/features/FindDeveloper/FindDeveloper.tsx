@@ -1,3 +1,5 @@
+// Author: Piyush Joshi
+
 import React, { useEffect, useState } from "react";
 import DeveloperCard from "../../components/DeveloperCard";
 import { NavBar } from "../../components";
