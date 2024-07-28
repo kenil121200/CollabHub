@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Main = styled.div`
   display: flex;
@@ -24,12 +24,6 @@ export const Header = styled.h1`
   text-align: center;
 `;
 
-export const Text = styled.p`
-  font-size: 1rem;
-  line-height: 1.5;
-  color: #212529;
-`;
-
 export const FaqContainer = styled.div`
   margin-top: 20px;
 `;
@@ -46,5 +40,20 @@ export const Question = styled.h2`
 export const Answer = styled.p`
   font-size: 1rem;
   color: #6c757d;
+  margin-bottom: 5px;
 `;
 
+export const ShowMoreText = styled.span`
+  font-size: 1rem;
+  color: #007bff;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+export const AnswerContainer = styled.div`
+  margin-top: 10px;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
+`;

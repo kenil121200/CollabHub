@@ -1,3 +1,5 @@
+// Author: Jay Patel
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
@@ -59,9 +61,7 @@ const ChatPage: React.FC = () => {
 
   useEffect(() => {
     if (groups.length === 0) {
-      axios.post(`${process.env.REACT_APP_BACKEND_LINK}/contributedProjects/fetchProjects`, 
-        { contributorEmail: currentUser.username }
-      ).then(response => {
+      axios.get(`${process.env.REACT_APP_BACKEND_LINK}/listedProjects/getAllProjects`).then(response => {
         setGroups(response.data);
         setSelectedGroup(response.data[0]);
       });

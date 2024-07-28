@@ -1,3 +1,5 @@
+// Author: Jay Patel
+
 export interface User {
     username: string;
     name: string;

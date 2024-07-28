@@ -1,3 +1,5 @@
+// Author: Jay Patel
+
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import collabHub from '../../assets/collabhub.svg';
