@@ -1,3 +1,5 @@
+//@ Author: B00981839-Krutik Kulkarni
+
 import styled, { keyframes } from "styled-components";
 
 const slide = keyframes`
@@ -114,8 +116,6 @@ export const Icons = styled.div`
   background-color: rgb(255, 255, 255);
   border-radius: 50px;
 `;
-
-
 
 export const GradientOverlay = styled.div`
   position: absolute;
