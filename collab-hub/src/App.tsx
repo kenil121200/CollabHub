@@ -1,4 +1,4 @@
-// Author: Jay Patel
+// Author: Jay Patel, Tathya Kapadia
 
 import React from "react";
 import "./App.css";
