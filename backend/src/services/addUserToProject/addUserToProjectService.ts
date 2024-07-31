@@ -1,13 +1,14 @@
 import { client, dbName } from "../../config/mongoDb";
 import { Project } from '../../types/ProjectTypes';
-import { ObjectId, WithId } from "mongodb";
 
 export class AddUserToProjectService {
-  async addUserToProject(projectName: string, email: string): Promise<boolean> {
+  async addUserToProject(projectName: string, email: string, projectId: string): Promise<boolean> {
     const db = client.db(dbName);
-    const collection = db.collection<Project>("projects");
+    const projectCollection = db.collection<Project>("projects");
+    const groupCollection = db.collection("groups");
 
-    const project = await collection.findOne({ projectName: projectName });
+    // Update the project to add the user email
+    const project = await projectCollection.findOne({ projectName: projectName });
     if (!project) {
       console.log(`Project ${projectName} not found`);
       return false;
@@ -15,13 +16,25 @@ export class AddUserToProjectService {
 
     console.log(`Project found: `, project);
 
-    const result = await collection.updateOne(
+    const projectUpdateResult = await projectCollection.updateOne(
       { projectName: projectName },
       { $addToSet: { contributorsEmail: email } }
     );
 
-    console.log(`Update result: `, result);
+    console.log(`Project update result: `, projectUpdateResult);
 
-    return result.modifiedCount > 0;
+    if (projectUpdateResult.modifiedCount === 0) {
+      console.log(`Failed to update project ${projectName}`);
+      return false;
+    }
+
+    const groupUpdateResult = await groupCollection.updateOne(
+      { projectId: projectId },
+      { $addToSet: { memberList: email } }
+    );
+
+    console.log(`Group update result: `, groupUpdateResult);
+
+    return groupUpdateResult.modifiedCount > 0;
   }
 }

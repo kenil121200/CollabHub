@@ -4,4 +4,5 @@ export interface InvitationData {
     projectName: string;
     projectModerator: string;
     subject: string;
+    projectId: string
   }

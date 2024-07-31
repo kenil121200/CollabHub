@@ -3,7 +3,7 @@ import { AddUserToProjectService } from '../../services/addUserToProject/addUser
 
 export const addUserToProject = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { projectName, email } = req.body;
+    const { projectName, email, projectId } = req.body;
 
     if (!projectName || !email) {
       res.status(400).json({ error: 'Project name and email are required' });
@@ -11,7 +11,7 @@ export const addUserToProject = async (req: Request, res: Response): Promise<voi
     }
 
     const addUserToProjectService = new AddUserToProjectService();
-    const success = await addUserToProjectService.addUserToProject(projectName, email);
+    const success = await addUserToProjectService.addUserToProject(projectName, email, projectId);
 
     if (success) {
       res.status(200).json({ message: 'User added to project successfully' });

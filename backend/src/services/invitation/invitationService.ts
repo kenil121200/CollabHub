@@ -4,16 +4,16 @@ import { InvitationData } from "../../types/InvitationTypes";
 const transporter = nodemailer.createTransport({
   service: "gmail",
   host: "smtp.gmail.com",
-  port: 587,
-  secure: true, 
+  port: 465,
+  secure: true,
   auth: {
     user: "collabhub9@gmail.com", 
-    pass: "aszxckeigpswpoyn" 
+    pass: "nzckhnrotigtsata" 
   }
 });
 
 export const sendInvitationEmail = async (invitationData: InvitationData) => {
-  const { email, name, projectName, projectModerator, subject } = invitationData;
+  const { email, name, projectName, projectModerator, subject, projectId } = invitationData;
 
   const mailOptions = {
     from: "collabhub9@gmail.com",
@@ -22,7 +22,7 @@ export const sendInvitationEmail = async (invitationData: InvitationData) => {
     html: `
       <p>Hi ${name},</p>
       <p>${projectModerator} has invited you to join the project ${projectName}. 
-      <a href="https://your-project-url.com/accept-invitation">Click here</a> to accept or reject the request.</p>
+      <a href="http://localhost:3000/accept-invitation?projectId=${projectId}&projectName=${encodeURIComponent(projectName)}">Click here</a> to accept or reject the request.</p>
       <br>
       <p>From Team,<br>Collab-Hub</p>
       <hr>

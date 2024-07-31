@@ -17,6 +17,7 @@ import FindDeveloper from "./features/FindDeveloper/FindDeveloper";
 import ViewDeveloper from "./features/FindDeveloper/ViewDeveloper";
 import ProfileInformation from "./components/ProfileInformation/ProfileInformation";
 import UserProjects from "./features/UserProjects/UserProject";
+import AcceptInvitation from "./features/AcceptInvitation/AcceptInvitation";
 
 function App() {
   return (
@@ -36,7 +37,8 @@ function App() {
           <Route path="/developers" element={<FindDeveloper />} />
           <Route path="/getDeveloper/:id" element={<ViewDeveloper />} />
           <Route path="/chat" element={<ChatPage />} />
-          <Route path="/user-projects" element={<UserProjects />} />
+          <Route path="/user-projects" element={<UserProjects />} /> 
+          <Route path="/accept-invitation" element={<AcceptInvitation />} /> 
         </Routes>
       </Router>
     </>
