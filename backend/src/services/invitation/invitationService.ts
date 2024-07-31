@@ -22,7 +22,7 @@ export const sendInvitationEmail = async (invitationData: InvitationData) => {
     html: `
       <p>Hi ${name},</p>
       <p>${projectModerator} has invited you to join the project ${projectName}. 
-      <a href="http://localhost:3000/accept-invitation?projectId=${projectId}&projectName=${encodeURIComponent(projectName)}">Click here</a> to accept or reject the request.</p>
+      <a href="https://csci-5709-webproject.onrender.com/accept-invitation?projectId=${projectId}&projectName=${encodeURIComponent(projectName)}">Click here</a> to accept or reject the request.</p>
       <br>
       <p>From Team,<br>Collab-Hub</p>
       <hr>
