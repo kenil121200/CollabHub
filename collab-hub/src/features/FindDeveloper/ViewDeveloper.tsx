@@ -77,7 +77,7 @@ const ViewDeveloper = () => {
 
     try {
       await axios.post(
-        `http://localhost:8081/invitation/send`,
+        `${process.env.REACT_APP_BACKEND_LINK}/invitation/send`,
         payload
       );
       alert("Invitation sent successfully!");

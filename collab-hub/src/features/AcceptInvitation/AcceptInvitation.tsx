@@ -35,7 +35,7 @@ const AcceptInvitation = () => {
     }
 
     try {
-      await axios.post('http://localhost:8081/addUserToProject/add', {
+      await axios.post(`${process.env.REACT_APP_BACKEND_LINK}/addUserToProject/add`, {
         projectName,
         projectId,
         email
