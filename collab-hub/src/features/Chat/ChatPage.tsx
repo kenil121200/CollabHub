@@ -14,7 +14,7 @@ interface User {
 }
 
 interface Group {
-  _id: string;
+  projectId: string;
   projectName: string;
 }
 
@@ -29,24 +29,28 @@ interface Message {
 
 const ChatPage: React.FC = () => {
   const [groups, setGroups] = useState<Group[]>([]);
-  const [selectedGroup, setSelectedGroup] = useState<Group | null>(groups[0]);
+  const [selectedGroup, setSelectedGroup] = useState<Group | null>(null); // Initialize as null
   const [showModal, setShowModal] = useState<boolean>(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState<string>('');
   const user = getAuthenticaticatedUser();
   const currentUser: User = { username: user.login, name: user.name };
+  const userEmail = localStorage.getItem('email');
 
   useEffect(() => {
     if (selectedGroup) {
       // Fetch initial messages
-      axios.get(`${process.env.REACT_APP_BACKEND_LINK}/chat/messages/${selectedGroup._id}`).then(response => {
-        setMessages(response.data);
-      }).catch(err => {
-        console.log("No chat history exists for this chat group")
-      });
+      axios.get(`${process.env.REACT_APP_BACKEND_LINK}/chat/messages/${selectedGroup.projectId}`)
+        .then(response => {
+          setMessages(response.data);
+        })
+        .catch(err => {
+          console.log("No chat history exists for this chat group");
+          setMessages([]); // Set messages to an empty array if no history exists
+        });
 
       // Subscribe to Pusher channels
-      const channel = pusher.subscribe(selectedGroup._id);
+      const channel = pusher.subscribe(selectedGroup.projectId);
 
       channel.bind('message', (newMessage: Message) => {
         setMessages(prevMessages => [...prevMessages, newMessage]);
@@ -57,39 +61,49 @@ const ChatPage: React.FC = () => {
         channel.unsubscribe();
       };
     }
-  }, [ selectedGroup]);
+  }, [selectedGroup]);
 
   useEffect(() => {
-    if (groups.length === 0) {
-      axios.get(`${process.env.REACT_APP_BACKEND_LINK}/listedProjects/getAllProjects`).then(response => {
-        setGroups(response.data);
-        setSelectedGroup(response.data[0]);
-      });
+    if (groups.length === 0 && userEmail) {
+      axios.post(`${process.env.REACT_APP_BACKEND_LINK}/chat/by-contributor-email`, { contributorEmail: userEmail })
+        .then(response => {
+          setGroups(response.data);
+          console.log(response.data);
+          setSelectedGroup(response.data[0]);
+        })
+        .catch(error => {
+          console.error('Error fetching groups:', error);
+          toast.error('Failed to load groups.', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        });
     }
-  }, [])
+  }, [groups, userEmail]);
 
-  const handleLeaveGroup = () => {
+  const handleLeaveGroup = async () => {
     if (selectedGroup === null) return;
 
-    const leaveMessage: Message = {
-      _id: messages.length + 1,
-      message: `${currentUser.username} has left the group`,
-      isSent: false,
-      groupId: selectedGroup._id,
-      user: { username: 'system', name: 'System' },
-      timestamp: new Date(),
-    };
+    try {
+      // Call the API to leave the group
+      await axios.post(`${process.env.REACT_APP_BACKEND_LINK}/chat/leave`, {
+        groupId: selectedGroup.projectId,
+        userEmail: userEmail, // Use userEmail to remove from memberList
+      });
 
-    axios.post(`${process.env.REACT_APP_BACKEND_LINK}/chat/leave`, {
-      groupId: selectedGroup._id,
-      username: currentUser.username,
-      message: leaveMessage
-    }).then(response => {
       const groupIndex = groups.indexOf(selectedGroup);
-      const newGroups = groups.filter(group => group._id !== selectedGroup._id);
+      const newGroups = groups.filter(
+        (group) => group.projectId !== selectedGroup.projectId
+      );
 
       if (newGroups.length > 0) {
-        const nextGroupIndex = groupIndex === newGroups.length ? groupIndex - 1 : groupIndex;
+        const nextGroupIndex =
+          groupIndex === newGroups.length ? groupIndex - 1 : groupIndex;
         setSelectedGroup(newGroups[nextGroupIndex]);
       } else {
         setSelectedGroup(null);
@@ -97,10 +111,8 @@ const ChatPage: React.FC = () => {
 
       setGroups(newGroups);
       setShowModal(false);
-      setMessages(prevMessages => [...prevMessages, leaveMessage]);
-    }).catch(error => {
-      toast.error('Error leaving the group', {
-        position: "top-right",
+      toast.success('You have left the group successfully.', {
+        position: 'top-right',
         autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -108,7 +120,17 @@ const ChatPage: React.FC = () => {
         draggable: true,
         progress: undefined,
       });
-    });
+    } catch (error) {
+      toast.error('Error leaving the group', {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
   };
 
   const handleSendMessage = () => {
@@ -117,7 +139,7 @@ const ChatPage: React.FC = () => {
         _id: messages.length + 1,
         message: newMessage,
         isSent: true,
-        groupId: selectedGroup._id,
+        groupId: selectedGroup.projectId,
         user: currentUser,
         timestamp: new Date(),
       };
@@ -156,9 +178,9 @@ const ChatPage: React.FC = () => {
           <div className="space-y-2 text-left">
             {groups.map(group => (
               <p
-                key={group._id}
+                key={group.projectId}
                 className={`text-gray-300 hover:bg-gray-700 hover:text-white cursor-pointer p-2 rounded ${
-                  selectedGroup?._id === group._id ? 'bg-gray-700 text-white' : ''
+                  selectedGroup?.projectId === group.projectId ? 'bg-gray-700 text-white' : ''
                 }`}
                 onClick={() => setSelectedGroup(group)}
               >
@@ -181,10 +203,10 @@ const ChatPage: React.FC = () => {
               </div>
               <div className="flex-1 overflow-y-auto p-4">
                 {messages.length === 0 ? (
-                  <div className="text-center text-gray-500">Start the conversation...</div>
+                  <div className="text-center text-gray-500">No chat history found</div>
                 ) : (
                   messages
-                    .filter(message => message.groupId === selectedGroup._id)
+                    .filter(message => message.groupId === selectedGroup.projectId)
                     .map((message) => (
                       <div
                         key={message._id}
