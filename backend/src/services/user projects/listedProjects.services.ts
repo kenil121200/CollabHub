@@ -4,6 +4,7 @@
 import { ObjectId } from "mongodb";
 import { client, dbName } from "../../config/mongoDb";
 import { Project } from "../../types/ProjectTypes";
+import { Group } from "../../types/GroupTypes";
 
 class ListedProjectsServices {
   constructor() {}
@@ -11,10 +12,22 @@ class ListedProjectsServices {
   async createNewProject(listedProject: Project): Promise<String> {
     try {
       const db = client.db(dbName);
-      const collection = db.collection<Project>("projects");
+      const projectsCollection = db.collection<Project>("projects");
 
-      const result = await collection.insertOne(listedProject);
-      if (result.insertedId) {
+      const projectsResult = await projectsCollection.insertOne(listedProject);
+
+      if (projectsResult.insertedId) {
+        const groupsCollection = db.collection<Group>("groups");
+
+        let group: Group = {
+          projectId: projectsResult.insertedId.toString(),
+          projectName: listedProject.projectName,
+          memberList: [],
+        };
+        group.memberList.push(listedProject.createdByEmail);
+
+        await groupsCollection.insertOne(group);
+
         return "Project created successfully";
       } else {
         throw new Error("Project creation failed");
