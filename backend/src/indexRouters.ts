@@ -10,6 +10,8 @@ import listedProjectsRoutes from "./routers/user Projects/listedProjectsRoutes";
 import contributedProjectsRoutes from "./routers/user Projects/contributedProjectsRoutes";
 import chatRoutes from "./routers/chat/chatRoutes";
 import profileRoutes from "./routers/profile/profileRoutes";
+import invitationRoutes from "./routers/invitation/invitationRoutes";
+import createAddUserToProjectRouter from './routers/addUserToProject/addUserToProjectRoutes';
 
 const router = express.Router();
 
@@ -21,5 +23,7 @@ router.use("/listedProjects", listedProjectsRoutes);
 router.use("/contributedProjects", contributedProjectsRoutes);
 router.use("/chat", chatRoutes);
 router.use("/profile", profileRoutes);
+router.use("/invitation", invitationRoutes);
+router.use("/addUserToProject", createAddUserToProjectRouter)
 
 export default router;
