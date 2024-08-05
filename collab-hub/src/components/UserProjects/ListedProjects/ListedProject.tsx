@@ -1,7 +1,7 @@
-//Author : Jainish Patel
+// Author: Jainish Patel, Jay Patel
 
 import React, { useCallback, useEffect, useState } from 'react';
-import { Box, Grid, useMediaQuery, useTheme, Button, Modal, Typography } from '@mui/material';
+import { Box, Grid, useMediaQuery, useTheme, Button, Modal, Typography, Dialog, DialogActions, DialogContent, DialogTitle, CircularProgress } from '@mui/material';
 import ProjectCard from '../ProjectCard';
 import SearchBar from '../SearchBar';
 import Stats from '../Stats';
@@ -15,9 +15,25 @@ const ListedProjects: React.FC = () => {
     const [projects, setProjects] = useState<Project[]>([]);
     const [search, setSearch] = useState<string>('');
     const [open, setOpen] = useState(false);
+    const [dialogOpen, setDialogOpen] = useState(false);
+    const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+    const [selectedUserEmail, setSelectedUserEmail] = useState<string | null>(null);
+    const [userProfile, setUserProfile] = useState<any | null>(null);
+    const [loadingProfile, setLoadingProfile] = useState(false);
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+
+    const handleDialogOpen = (project: Project) => {
+        setSelectedProject(project);
+        setDialogOpen(true);
+    };
+
+    const handleDialogClose = () => {
+        setDialogOpen(false);
+        setSelectedUserEmail(null);
+        setUserProfile(null);
+    };
 
     const fetchListedProjects = useCallback(async () => {
         try {
@@ -27,6 +43,7 @@ const ListedProjects: React.FC = () => {
                 { "createdByEmail": email }
             );
             setProjects(response.data);
+            console.log(response.data)
         } catch (err) {
             console.log(err);
         }
@@ -44,6 +61,59 @@ const ListedProjects: React.FC = () => {
     const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearch(event.target.value);
     };
+
+    const handleViewDetails = async (email: string) => {
+        setSelectedUserEmail(email);
+        setLoadingProfile(true);
+        try {
+            const response = await axios.post(
+                `${process.env.REACT_APP_BACKEND_LINK}/profile/fetchProfile`,
+                { email }
+            );
+            setUserProfile(response.data);
+        } catch (error) {
+            console.error('Error fetching user profile:', error);
+            setUserProfile(null);
+        } finally {
+            setLoadingProfile(false);
+        }
+    };
+
+    const handleAccept = async () => {
+        try {
+          const response = await axios.post(
+            `${process.env.REACT_APP_BACKEND_LINK}/join-project/accept`,
+            { projectId: selectedProject?._id, userEmail: selectedUserEmail }
+          );
+          if (response.status === 200) {
+            alert('User accepted!');
+            // Update the UI to reflect changes, e.g., refetch projects
+            fetchListedProjects();
+          }
+        } catch (error) {
+          console.error('Error accepting user:', error);
+          alert('Failed to accept user.');
+        }
+        handleDialogClose();
+      };
+      
+      const handleReject = async () => {
+        try {
+          const response = await axios.post(
+            `${process.env.REACT_APP_BACKEND_LINK}/join-project/reject`,
+            { projectId: selectedProject?._id, userEmail: selectedUserEmail }
+          );
+          if (response.status === 200) {
+            alert('User rejected!');
+            // Update the UI to reflect changes, e.g., refetch projects
+            fetchListedProjects();
+          }
+        } catch (error) {
+          console.error('Error rejecting user:', error);
+          alert('Failed to reject user.');
+        }
+        handleDialogClose();
+      };
 
     const filteredProjects = projects.filter(project => {
         const searchQuery = search.toLowerCase();
@@ -77,7 +147,16 @@ const ListedProjects: React.FC = () => {
                         <Grid item xs={12} md={8}>
                             {filteredProjects.length > 0 ? (
                                 filteredProjects.map((project, index) => (
-                                    <ProjectCard key={index} project={project} />
+                                    <Box key={index} className="mb-4">
+                                        <ProjectCard project={project} />
+                                        <Button
+                                            variant="outlined"
+                                            color="primary"
+                                            onClick={() => handleDialogOpen(project)}
+                                        >
+                                            Collaboration Request
+                                        </Button>
+                                    </Box>
                                 ))
                             ) : (
                                 <Typography variant="h6" style={{ margin: '20px' }}>
@@ -104,6 +183,61 @@ const ListedProjects: React.FC = () => {
                     <NewProjectForm onSubmit={addNewProject} />
                 </Box>
             </Modal>
+            <Dialog
+                open={dialogOpen}
+                onClose={handleDialogClose}
+                aria-labelledby="collaboration-dialog-title"
+                fullWidth
+                maxWidth="md" // Make the dialog bigger
+            >
+                <DialogTitle id="collaboration-dialog-title">
+                    Collaboration Requests
+                </DialogTitle>
+                <DialogContent>
+                    {selectedProject && selectedProject.pendingRequestList ? (
+                        selectedProject.pendingRequestList.map((email, index) => (
+                            <Box key={index} display="flex" justifyContent="space-between" alignItems="center" mb={2}>
+                                <Typography>{email}</Typography>
+                                <Button
+                                    variant="outlined"
+                                    color="primary"
+                                    onClick={() => handleViewDetails(email)}
+                                >
+                                    View Details
+                                </Button>
+                            </Box>
+                        ))
+                    ) : (
+                        <Typography>No pending requests.</Typography>
+                    )}
+                    {loadingProfile ? (
+                        <CircularProgress />
+                    ) : userProfile && selectedUserEmail && (
+                        <Box mt={4}>
+                            <Typography variant="h6">User Profile</Typography>
+                            <Typography>Name: {userProfile.firstName} {userProfile.lastName}</Typography>
+                            <Typography>Email: {selectedUserEmail}</Typography>
+                            <Typography>Age: {userProfile.age}</Typography>
+                            <Typography>Gender: {userProfile.gender}</Typography>
+                            <Typography>Contact Number: {userProfile.contactNumber}</Typography>
+                            <Typography>Skills: {userProfile.skills.join(', ')}</Typography>
+                            <DialogActions>
+                                <Button variant="contained" color="primary" onClick={handleAccept}>
+                                    Accept
+                                </Button>
+                                <Button variant="outlined" color="secondary" onClick={handleReject}>
+                                    Reject
+                                </Button>
+                            </DialogActions>
+                        </Box>
+                    )}
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleDialogClose} color="primary">
+                        Close
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </div>
     );
 };
