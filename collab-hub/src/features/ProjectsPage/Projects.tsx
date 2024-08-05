@@ -299,7 +299,7 @@ function Projects() {
               <Grid item xs={12} sm={6} md={4} lg={3} key={project._id}>
                 <ButtonBase
                   sx={{ width: '100%', height: '100%', display: 'block', textAlign: 'left' }}
-                  onClick={() => navigate(`/project/${project._id}`)}
+                  onClick={() => navigate(`/project/${project._id}`,{ state: { project } })}
                 >
                   <ProductCard>
                     <ProductImageWrapper>
