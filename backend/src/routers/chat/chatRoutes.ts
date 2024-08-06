@@ -9,5 +9,6 @@ router.get('/messages/:groupId', chatController.fetchMessages.bind(chatControlle
 router.post('/message', chatController.sendMessage.bind(chatController));
 router.post('/typing', chatController.sendTypingIndicator.bind(chatController));
 router.post('/leave', chatController.leaveGroup.bind(chatController));
+router.post('/by-contributor-email', chatController.getGroupsByContributorEmail.bind(chatController));
 
 export default router;

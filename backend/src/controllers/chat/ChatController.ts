@@ -67,21 +67,37 @@ class ChatController {
     }
   }
 
-  async leaveGroup(req: Request, res: Response): Promise<Response> {
-    try {
-      const { groupId, username } = req.body;
-
-      if (!groupId || !username) {
-        return res.status(400).json({ message: "Missing parameters" });
-      }
-
-      const leaveMessage = await chatService.leaveGroup(groupId, username);
-
-      return res.status(200).json({ success: true, message: leaveMessage });
-    } catch (error) {
-      return res.status(500).json({ message: "Internal server error" });
+  async leaveGroup(req: Request, res: Response) {
+    const { groupId, userEmail } = req.body;
+  
+    if (!groupId || !userEmail) {
+      return res.status(400).json({ error: 'Group ID and User Email are required.' });
     }
+  
+    try {
+      const leaveMessage = await chatService.leaveGroup(groupId, userEmail);
+      return res.status(200).json(leaveMessage);
+    } catch (error) {
+      console.error('Error leaving group:', error);
+      return res.status(500).json({ error: 'Internal server error.' });
+    }
+  };
+
+  async getGroupsByContributorEmail(req: Request, res: Response) {
+  const { contributorEmail } = req.body;
+
+  if (!contributorEmail) {
+    return res.status(400).json({ error: 'Contributor email is required.' });
   }
+
+  try {
+    const groups = await chatService.fetchGroupsByContributorEmail(contributorEmail);
+    return res.status(200).json(groups);
+  } catch (error) {
+    console.error('Error fetching groups:', error);
+    return res.status(500).json({ error: 'Internal server error.' });
+  }
+};
   
 }
 
