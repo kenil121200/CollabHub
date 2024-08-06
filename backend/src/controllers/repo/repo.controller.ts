@@ -32,18 +32,22 @@ class RepoController {
   }
 
   async addCollaborator(req: Request, res: Response): Promise<void> {
-    const { accessToken, owner, repo, username } = req.body;
+    const { accessToken, owner, repo, username, permission } = req.body;
 
     const url = `https://api.github.com/repos/${owner}/${repo}/collaborators/${username}`;
     const options = {
       headers: {
-        'Authorization': `token ${accessToken}`,
+        'Authorization': `Bearer ${accessToken}`,
         'Content-Type': 'application/json'
       }
     };
 
+    const body = {
+      permission: permission
+    };
+
     try {
-      const response = await axios.put(url, {}, options);
+      const response = await axios.put(url, body, options);
       res.json(response.data);
     } catch (error) {
       res.status(500).json({ error: (error as any).message });
