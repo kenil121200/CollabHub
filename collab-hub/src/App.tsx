@@ -17,6 +17,10 @@ import FindDeveloper from "./features/FindDeveloper/FindDeveloper";
 import ViewDeveloper from "./features/FindDeveloper/ViewDeveloper";
 import ProfileInformation from "./components/ProfileInformation/ProfileInformation";
 import UserProjects from "./features/UserProjects/UserProject";
+import CreateRepoForm from "./features/CreateRepo";
+
+import AcceptInvitation from "./features/AcceptInvitation/AcceptInvitation";
+import ProjectDescription from "./features/ProjectDescription/ProjectDescription";
 
 function App() {
   return (
@@ -36,7 +40,10 @@ function App() {
           <Route path="/developers" element={<FindDeveloper />} />
           <Route path="/getDeveloper/:id" element={<ViewDeveloper />} />
           <Route path="/chat" element={<ChatPage />} />
-          <Route path="/user-projects" element={<UserProjects />} />
+          <Route path="/create-repo" element={<CreateRepoForm />} />
+          <Route path="/user-projects" element={<UserProjects />} /> 
+          <Route path="/accept-invitation" element={<AcceptInvitation />} /> 
+          <Route path="/project/:id" element={<ProjectDescription />} />
         </Routes>
       </Router>
     </>

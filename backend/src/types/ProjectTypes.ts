@@ -1,4 +1,4 @@
-//Author : Jainish Patel
+//Author : Jainish Patel, Jay Patel
 
 import { ObjectId } from "mongodb";
 export interface Project {
@@ -10,3 +10,5 @@ export interface Project {
   projectTechnologies: string;
   projectDomain: string;
 }
+
+

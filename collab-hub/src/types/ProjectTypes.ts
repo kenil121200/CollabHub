@@ -1,4 +1,4 @@
-//Author : Jainish Patel
+// Author: Jainish Patel, Jay Patel
 
 export interface Project {
   _id?: string;
@@ -8,4 +8,5 @@ export interface Project {
   contributorsEmail?: string[];
   projectTechnologies: string;
   projectDomain: string;
+  pendingRequestList?: string[]; // Add this line
 }

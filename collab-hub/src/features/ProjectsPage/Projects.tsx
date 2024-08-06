@@ -21,6 +21,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import GroupIcon from '@mui/icons-material/Group';
 import { styled } from '@mui/system';
+import { useNavigate } from 'react-router-dom';
 
 interface Project {
     _id: string;
@@ -76,6 +77,7 @@ const options = [
     'Swift': "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/swift/swift-original.svg",
     'react': "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg",
     'React': "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg",
+    'React.JS': "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg",
     'aws': "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-original-wordmark.svg",
     'AWS': "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-original-wordmark.svg",
     'Aws': "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-original-wordmark.svg"
@@ -151,7 +153,8 @@ function Projects() {
     const [searchText, setSearchText] = useState('');
     const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
     const [selectedOptions, setSelectedOptions] = useState<string[]>(['All']);
-  
+    const navigate = useNavigate();
+
     useEffect(() => {
       fetch(`${process.env.REACT_APP_BACKEND_LINK}/listedProjects/getAllProjects`)
         .then(response => response.json())
@@ -295,7 +298,10 @@ function Projects() {
             const mainTechnology = technologies[0].trim();
             return (
               <Grid item xs={12} sm={6} md={4} lg={3} key={project._id}>
-                <ButtonBase sx={{ width: '100%', height: '100%', display: 'block', textAlign: 'left' }} onClick={() => alert("Card Clicked")}>
+                <ButtonBase
+                  sx={{ width: '100%', height: '100%', display: 'block', textAlign: 'left' }}
+                  onClick={() => navigate(`/project/${project._id}`,{ state: { project } })}
+                >
                   <ProductCard>
                     <ProductImageWrapper>
                     <ProductImage
