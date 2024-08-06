@@ -77,6 +77,7 @@ const options = [
     'Swift': "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/swift/swift-original.svg",
     'react': "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg",
     'React': "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg",
+    'React.JS': "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg",
     'aws': "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-original-wordmark.svg",
     'AWS': "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-original-wordmark.svg",
     'Aws': "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-original-wordmark.svg"
