@@ -9,6 +9,5 @@ export interface Project {
   contributorsEmail: string[];
   projectTechnologies: string;
   projectDomain: string;
+  pendingRequestList?: string[];
 }
-
-
