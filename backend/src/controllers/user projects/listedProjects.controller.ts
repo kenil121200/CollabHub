@@ -34,6 +34,7 @@ class ListedProjectsController {
         contributorsEmail: [],
         projectTechnologies: projectTechnologies,
         projectDomain: projectDomain,
+        pendingRequestList: [],
       };
       listedProject.contributorsEmail.push(createdByEmail);
 
