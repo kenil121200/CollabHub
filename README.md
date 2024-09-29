@@ -1,93 +1,201 @@
-# CSCI 5709 Grp-05
+# CollabHub
+
+The CollabHub project offers a dedicated platform through which one could discover or contribute to open-source projects. By matching developers with relevant projects and collaborators, CollabHub makes it possible to solve two of the most important challenges that open-source ecosystem face—finding the right project which match the developer slills and interest and effective communication among contributors. The platform offers robust filtering options and GitHub integration to enhance user experience, making it easier for contributors and maintainers to collaborate. The following report describes the development of CollabHub, speaks about its potential for building a more connected and efficient open source community. 
+
+### Deployed Link: https://web-grp5.netlify.app/ 
+
+### Backend URL: https://csci-5709-webproject.onrender.com
+
+### Technologies Used
+
+- **Frontend**: React, Tailwind CSS
+- **Backend**: Express, Node.js
+- **Database**: MongoDB
+- **Deployment**: Netlify for frontend deployment, Render for backend deployment
+- **Programming Language**: Typescript
 
 
+### Group Information
+- Members:  
 
-## Getting started
+    * Kenil Patel (B00954251) kenil121200@gmail.com
+    * Tathya Kapadia (B00968181) tt857842@dal.ca  	 
+    * Krutik Kulkarni (B00981839) kr677398@dal.ca
+    * Piyush Joshi (B00978594) py287300@dal.ca
+    * Jay Patel (B00981520) Jy356444@dal.ca	
+    * Jainish Patel (B00981519) jn891368@dal.ca
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+## Getting Started
 
-## Add your files
+### Prerequisites
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+To have a local copy of this up and running on your local machine, you will first need to install the following software / libraries / plug-ins
 
 ```
-cd existing_repo
-git remote add origin https://git.cs.dal.ca/kkulkarni/csci-5708-grp-05.git
-git branch -M main
-git push -uf origin main
+
+npm (Comes with node.js installation)
+
+Frontend Dependencies:
+"dependencies": {
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^27.5.2",
+    "@types/node": "^16.18.97",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.23.1",
+    "react-scripts": "5.0.1",
+    "react-toastify": "^10.0.5",
+    "dotenv": "^16.4.5",
+    "styled-components": "^6.1.11",
+    "typescript": "^4.9.5",
+    "typewriter-effect": "^2.21.0",
+    "web-vitals": "^2.1.4"
+}
+
+Backend Dependencies:
+
+"dependencies": {
+    "axios": "^1.7.2",
+    "body-parser": "^1.20.2",
+    "compression": "^1.7.4",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "mongodb": "^6.8.0"
+}
+
 ```
 
-## Integrate with your tools
+See the following section for detailed step-by-step instructions on how to install this software / libraries / plug-ins
 
-- [ ] [Set up project integrations](https://git.cs.dal.ca/kkulkarni/csci-5708-grp-05/-/settings/integrations)
 
-## Collaborate with your team
+### Installing
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+#### Install Node.js (to use npm)
 
-## Test and Deploy
+1. Goto https://nodejs.org/en/download and download the LTS installer as per your OS.
 
-Use the built-in continuous integration in GitLab.
+2. Run the installer.
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+3. Accept License Agreement
 
-***
+4. Choose Installation path.
 
-# Editing this README
+5. Keep the default installation settings and click next.
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+6. Skip the optional installation window and click next and click install.
 
-## Suggestions for a good README
+7. To check the installation, run the below commands.
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
 
-## Name
-Choose a self-explaining name for your project.
+```
+node -v
+```
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+Sample output: v20.11.0
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+```
+npm -v
+```
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+Sample output: 10.2.4
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+#### Install all libraries (Frontend + Backend)
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+Goto top level folder of the project ("/"). Run the below command.
+This will install dependencies of both React and Node.js apps.
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+```
+npm install
+```
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+Sample output: added 1565 packages, changed 69 packages, and audited 1635 packages in 2m
+Done in 3m 34.4s
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+#### Start Frontend and Backend
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+Goto folder of the project ("collab-hub/"). Run the below command.
+This will start both React app.
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+```
+npm start
+```
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+Goto folder of the project ("backend/"). Run the below command.
+This will start both Node.js app.
 
-## License
-For open source projects, say how it is licensed.
+```
+npm run dev
+```
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+## Deployment
+
+  
+**Frontend:**
+
+Link the GitHub/GitLab repository with [Netlify](https://app.netlify.com/).
+
+Then, use the below site configurations:
+
+* Base directory: `/collab-hub/`
+
+* Build command: `npm run build`
+
+* Publish directory: `/collab-hub/build`
+
+  
+**Backend:**
+
+Link the GitHub/GitLab repository with [OnRender](https://app.netlify.com/).
+
+Then, use the below site configurations:
+* Base directory: `/backend/`
+
+* Start Command: `node index.js`
+
+## Built With
+
+  
+
+<!--- Provide a list of the frameworks used to build this application, your list should include the name of the framework used, the url where the framework is available for download and what the framework was used for, see the example below --->
+
+  
+
+* [React](https://react.dev/) - The Frontend Library
+
+* [Create React App](https://create-react-app.dev/) - Tool to generate boilerplate code and structure of a React App
+
+* [npm](https://www.npmjs.com/) - Dependency management
+
+* [Node](https://www.npmjs.com/) - JavaScript runtime environment
+
+* [Express](https://www.npmjs.com/) - web framework for [Node.js](https://nodejs.org/en/)
+
+* [MongoDB](https://www.mongodb.com/) - NoSQL Database
+  
+  
+
+**References:**
+
+[1]	“Node.Js — download,” Nodejs.org. [Online]. Available: https://nodejs.org/en/download. [Accessed: 25-Jul-2024].
+
+[2]	“React,” React.dev. [Online]. Available: https://react.dev/. [Accessed: 25-Jul-2024].
+
+[3]	“Netlify app,” Netlify.com. [Online]. Available: https://app.netlify.com/. [Accessed: 27-Jul-2024].
+
+[4]	“Express - Node.js web application framework,” Expressjs.com. [Online]. Available: https://expressjs.com. [Accessed: 25-Jul-2024].
+
+[5]	“Create react app,” Create-react-app.dev. [Online]. Available: https://create-react-app.dev/. [Accessed: 25-Jul-2024].
+
+[6]	“Npm: React-router-dom,” npm. [Online]. Available: https://www.npmjs.com/package/react-router-dom. [Accessed: 25-Jul-2024].
+
+[7]	“Rapidly build modern websites without ever leaving your HTML,” Tailwindcss.com. [Online]. Available: https://tailwindcss.com. [Accessed: 25-Jul-2024].
+
+[8]	“Npm: Typescript,” npm. [Online]. Available: https://www.npmjs.com/package/typescript.[Accessed: 25-Jul-2024].
+
+[9] “MongoDB: The developer data platform,” MongoDB. [Online]. Available: https://www.mongodb.com. [Accessed: 26-Jul-2024].
