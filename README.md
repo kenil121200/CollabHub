@@ -18,7 +18,7 @@ The CollabHub project offers a dedicated platform through which one could discov
 ### Group Information
 - Members:  
 
-    * Kenil Patel (B00954251) kenil121200@gmail.com
+    * Kenil Patel (B00954251) kenilpatel121200@gmail.com
     * Tathya Kapadia (B00968181) tt857842@dal.ca  	 
     * Krutik Kulkarni (B00981839) kr677398@dal.ca
     * Piyush Joshi (B00978594) py287300@dal.ca
